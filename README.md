@@ -45,17 +45,20 @@ Example 3.  Multiple stylesheets:
 <link rel=preload as=stylesheet id=your-web-component-styles href="./your-customized-styles.css">
 <my-web-component>
   #Shadow DOM
-  <style be-loaded='[
-    {
-      "fallback": "./my-default-styles.css",
-      "preloadRefs": "my-web-component-styles"
-    },
-    {
-      "fallback": "./your-default-styles.css",
-      "preloadRefs": "your-web-component-styles"
-    }
-
-  ]'></style>
+  <style be-loaded='
+  {
+    "stylesheets": [
+      {
+        "fallback": "./my-default-styles.css",
+        "preloadRefs": "my-web-component-styles"
+      },
+      {
+        "fallback": "./your-default-styles.css",
+        "preloadRefs": "your-web-component-styles"
+      }
+    ]
+  }'
+  ></style>
 </my-web-component>
 ```
 
