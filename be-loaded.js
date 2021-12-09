@@ -5,4 +5,8 @@ async function doImport() {
     });
     console.log(stylesheet);
 }
-doImport();
+//https://davidwalsh.name/async-function-class
+const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
+const doImport2 = new AsyncFunction('return await import("./test.css", {assert: {type: "css"}});');
+const style = await doImport2();
+console.log(style);
