@@ -1,2 +1,8 @@
-import stylesheet from './test.css' assert { type: 'css' };
-console.log(stylesheet);
+"use strict";
+async function doImport() {
+    const stylesheet = await import('./test.css', {
+        assert: { type: 'css' }
+    });
+    console.log(stylesheet);
+}
+doImport();
