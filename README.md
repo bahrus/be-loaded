@@ -19,7 +19,7 @@ Example 1.
 
 Defaults to using CSS Module import (does that respect preload without double loading?  Would not be at all surprised if it doesn't, based on how many inconsistencies there are with preload implementations.)
 
-Due to current skypack limitation, can only work with fully qualified CSS Paths.
+Due to current [skypack limitation](https://github.com/skypackjs/skypack-cdn/issues/107), can only work with fully qualified CSS Paths when using a skypack based CDN.
 
 
 If no link tag is found, then throws an error.
