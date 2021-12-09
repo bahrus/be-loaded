@@ -9,7 +9,8 @@
 		"watch": true
 	},
 	"files":[
-		"be-loaded.ts"
+		"be-loaded.ts",
+		"importPolyfill.ts"
 	],
 	"exclude":[
 		"node_modules"
