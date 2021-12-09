@@ -22,7 +22,9 @@ Will default to using CSS Module import when:
 3.  All browsers support it
 4.  CSS Modules combined with preload link tags doesn't cause double downloading.  Would not be at all surprised if it does, based on how many inconsistencies there are with preload implementations.
 
-For now, will insert style tag.
+For now, will insert style tag, which can cause FOUC and suboptimal performance.  Dynamically loading the style via fetch causes the preloaded style to be downloaded twice.
+
+So style tag will be inserted, 
 
 If no link tag is found, then throws an error.
 
