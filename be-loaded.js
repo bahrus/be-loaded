@@ -1,28 +1,65 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { importCSS } from './importPolyfill.js';
 export class BeLoadedController {
-    async onLoadParams({ fallback, preloadRef, stylesheets, proxy }) {
+    intro(proxy) {
+        if (document.readyState === 'loading') {
+            proxy.domLoading = true;
+            document.addEventListener('DOMContentLoaded', e => {
+                proxy.domLoading = false;
+                proxy.domLoaded = true;
+                if (proxy.needsRedoing) {
+                    if (proxy.stylesheets !== undefined) {
+                        this.onStylesheets(this);
+                    }
+                    else {
+                        this.onLoadParams(this);
+                    }
+                }
+            }, { once: true });
+            return;
+        }
+        proxy.domLoaded = true;
+    }
+    async onLoadParams({ fallback, preloadRef, proxy }) {
         const loadParams = { fallback, preloadRef };
         const stylesheet = await this.loadStylesheet(this, loadParams);
+        if (stylesheet === true) {
+            proxy.needsRedoing = true;
+            return; //need to wait
+        }
+        if (stylesheet === false)
+            return;
         proxy.getRootNode().adoptedStyleSheets = [stylesheet];
     }
     async onStylesheets({ stylesheets, proxy }) {
         const adoptedStylesheets = [];
         for (const stylesheet of stylesheets) {
             const adoptedStylesheet = await this.loadStylesheet(this, stylesheet);
+            if (adoptedStylesheet === true) {
+                proxy.needsRedoing = true;
+                return; //need to wait
+            }
+            if (adoptedStylesheet === false)
+                continue;
             adoptedStylesheets.push(adoptedStylesheet);
         }
         proxy.getRootNode().adoptedStyleSheets = adoptedStylesheets;
     }
-    async loadStylesheet({ proxy }, { fallback, preloadRef }) {
-        if (preloadRef !== undefined && self[preloadRef] !== undefined) {
+    async loadStylesheet({ proxy, domLoading }, { fallback, preloadRef }) {
+        if (preloadRef !== undefined) {
             const link = self[preloadRef];
-            const stylesheet = await importCSS(link.href);
-            return stylesheet;
+            if (link !== undefined) {
+                return await importCSS(link.href);
+            }
+            else if (domLoading) {
+                return true;
+            }
         }
-        else if (fallback !== undefined) {
-            const stylesheet = await importCSS(fallback);
-            return stylesheet;
+        if (fallback !== undefined) {
+            return await importCSS(fallback);
+        }
+        else {
+            return false;
         }
     }
 }
@@ -41,7 +78,7 @@ define({
         },
         actions: {
             onLoadParams: {
-                ifKeyIn: ['fallback', 'preloadRef'],
+                ifKeyIn: ['fallback', 'preloadRef', 'domLoaded'],
             },
             onStylesheets: {
                 ifAllOf: ['stylesheets']
