@@ -35,7 +35,7 @@ export class BeLoadedController {
             rn.appendChild(stylesheet);
         }
         else {
-            rn.adoptedStyleSheets = [stylesheet];
+            rn.adoptedStyleSheets = [stylesheet.default];
         }
     }
     async onStylesheets({ stylesheets, proxy }) {
@@ -53,7 +53,7 @@ export class BeLoadedController {
                 rn.appendChild(stylesheet);
             }
             else {
-                adoptedStylesheets.push(adoptedStylesheet);
+                adoptedStylesheets.push(adoptedStylesheet.default);
             }
         }
         if (adoptedStylesheets.length > 0)

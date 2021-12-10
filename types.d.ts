@@ -27,3 +27,7 @@ export interface BeLoadedActions {
 export interface BeLoadedState {
 }
 
+export interface StylesheetImport{
+    default: StyleSheet;
+}
+

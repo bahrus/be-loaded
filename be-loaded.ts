@@ -1,5 +1,5 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
-import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams} from './types';
+import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams, StylesheetImport} from './types';
 import {importCSS} from './importCSS.js';
 import {register} from "be-hive/register.js";
 
@@ -35,7 +35,7 @@ export class BeLoadedController implements BeLoadedActions{
         if(stylesheet instanceof HTMLLinkElement){
             rn.appendChild(stylesheet);
         }else{
-            (rn as any).adoptedStyleSheets = [stylesheet];
+            (rn as any).adoptedStyleSheets = [stylesheet.default];
         }
     }
     async onStylesheets({stylesheets, proxy}: this){
@@ -51,7 +51,7 @@ export class BeLoadedController implements BeLoadedActions{
             if(stylesheet instanceof HTMLLinkElement){
                 rn.appendChild(stylesheet);
             }else{
-                adoptedStylesheets.push(adoptedStylesheet! as StyleSheet);
+                adoptedStylesheets.push((adoptedStylesheet! as StylesheetImport).default);
             }
             
         }
