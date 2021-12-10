@@ -87,7 +87,8 @@ define({
             ifWantsToBe,
             forceVisible: true,
             primaryProp: 'preloadRefs',
-            virtualProps: ['stylesheets', 'fallback', 'preloadRef']
+            virtualProps: ['stylesheets', 'fallback', 'preloadRef'],
+            intro: 'intro',
         },
         actions: {
             onLoadParams: {
