@@ -53,7 +53,7 @@ To help with this, specify "removeStyle": true.  Once the CSS imports are done a
 Example 2. 
 
 ```html
-<link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
+<link rel=preload as=script id=my-web-component-styles href="./my-customized-styles.css">
 ...
 <my-web-component>
   #Shadow DOM
@@ -101,24 +101,15 @@ Example 3.
 
 ```html
 
-<link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
-<link rel=preload as=stylesheet id=your-web-component-styles href="./your-customized-styles.css">
+<link rel=preload as=script id=my-web-component-config href="./my-customized-config.json">
 <my-web-component>
   #Shadow DOM
-  <style be-loaded='
-  {
-    "stylesheets": [
-      {
-        "fallback": "./my-default-styles.css",
-        "preloadRef": "my-web-component-styles"
-      },
-      {
-        "fallback": "./your-default-styles.css",
-        "preloadRef": "your-web-component-styles"
-      }
-    ]
-  }'
-  ></style>
+  <script type=application/json be-loaded=my-web-component-config>
+    "my-sub-component": {
+
+    }
+  </script>
+  <my-sub-component -prop1></my-sub-component>
 </my-web-component>
 ```
 
