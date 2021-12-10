@@ -8,14 +8,28 @@ Example 1.
 
 
 ```html
-<link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
-<my-web-component>
-  #Shadow DOM
-  <style be-loaded=my-web-component-styles></style>
-</my-web-component>
+<html>
+  <head>
+    <link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
+  </head>
+  <body>
+    ...
+    <my-web-component>
+      #Shadow DOM
+      <style be-loaded=my-web-component-styles></style>
+    </my-web-component>
+  </body>
+</html>
 ```
 
+If a web component won't load right away, place the link tag outside any shadow DOM, but near the end of the html document, and use lazy as the value of rel:
 
+```html
+<body>
+  ...
+  <link rel=lazy as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
+</body>
+```
 
 Defaults to using CSS Module import (does that respect preload without double loading?  Would not be at all surprised if it doesn't, based on how many inconsistencies there are with preload implementations.)
 
@@ -29,6 +43,7 @@ Example 2.  Fallback to a default stylesheet.
 
 ```html
 <link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
+...
 <my-web-component>
   #Shadow DOM
   <style be-loaded='{
