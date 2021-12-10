@@ -1,6 +1,6 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
 import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams} from './types';
-import {importCSS} from './importPolyfill.js';
+import {importCSS} from './importCSS.js';
 
 export class BeLoadedController implements BeLoadedActions{
     intro(proxy: HTMLStyleElement & BeLoadedVirtualProps): void {

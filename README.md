@@ -33,7 +33,7 @@ Example 2.  Fallback to a default stylesheet.
   #Shadow DOM
   <style be-loaded='{
     "fallback": "./my-default-styles.css",
-    "preloadRefs": "my-web-component-styles"
+    "preloadRef": "my-web-component-styles"
   }'></style>
 </my-web-component>
 ```

@@ -1,5 +1,5 @@
 import { define } from 'be-decorated/be-decorated.js';
-import { importCSS } from './importPolyfill.js';
+import { importCSS } from './importCSS.js';
 export class BeLoadedController {
     intro(proxy) {
         if (document.readyState === 'loading') {

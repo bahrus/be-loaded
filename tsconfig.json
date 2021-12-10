@@ -10,7 +10,7 @@
 	},
 	"files":[
 		"be-loaded.ts",
-		"importPolyfill.ts"
+		"importCSS.ts"
 	],
 	"exclude":[
 		"node_modules"
