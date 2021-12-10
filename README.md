@@ -1,4 +1,4 @@
-# be-loaded [TODO]
+# be-loaded [WIP]
 
 be-loaded is a web component decorator that allows a web component to import resources configured via index.html, but default to some internally provided resource if the resource configuration is not found.
 
