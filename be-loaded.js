@@ -2,7 +2,9 @@ import { define } from 'be-decorated/be-decorated.js';
 import { importCSS } from './importCSS.js';
 import { register } from "be-hive/register.js";
 export class BeLoadedController {
-    intro(proxy) {
+    #target;
+    intro(proxy, target) {
+        this.#target = target;
         if (document.readyState === 'loading') {
             proxy.domLoading = true;
             document.addEventListener('DOMContentLoaded', e => {
@@ -21,7 +23,7 @@ export class BeLoadedController {
         }
         proxy.domLoaded = true;
     }
-    async onLoadParams({ fallback, preloadRef, proxy }) {
+    async onLoadParams({ fallback, preloadRef, proxy, removeStyle }) {
         const loadParams = { fallback, preloadRef };
         const stylesheet = await this.loadStylesheet(this, loadParams);
         if (stylesheet === true) {
@@ -37,8 +39,24 @@ export class BeLoadedController {
         else {
             rn.adoptedStyleSheets = [stylesheet.default];
         }
+        this.doRemoveStyle(this, rn);
     }
-    async onStylesheets({ stylesheets, proxy }) {
+    doRemoveStyle({ removeStyle, proxy }, rn) {
+        switch (typeof removeStyle) {
+            case 'string':
+                {
+                    const styleToRemove = rn.querySelector(`#${removeStyle}`);
+                    if (styleToRemove !== null)
+                        styleToRemove.remove();
+                }
+                break;
+            case 'boolean':
+                if (removeStyle) {
+                    this.#target.remove();
+                }
+        }
+    }
+    async onStylesheets({ stylesheets, proxy, removeStyle: styleIdToRemove }) {
         const adoptedStylesheets = [];
         const rn = proxy.getRootNode();
         for (const stylesheet of stylesheets) {
@@ -58,6 +76,7 @@ export class BeLoadedController {
         }
         if (adoptedStylesheets.length > 0)
             rn.adoptedStyleSheets = adoptedStylesheets;
+        this.doRemoveStyle(this, rn);
     }
     async loadStylesheet({ proxy, domLoading }, { fallback, preloadRef }) {
         if (preloadRef !== undefined) {
@@ -88,7 +107,7 @@ define({
             ifWantsToBe,
             forceVisible: true,
             primaryProp: 'preloadRefs',
-            virtualProps: ['stylesheets', 'fallback', 'preloadRef'],
+            virtualProps: ['stylesheets', 'fallback', 'preloadRef', 'domLoading', 'domLoaded', 'needsRedoing', 'removeStyle'],
             intro: 'intro',
         },
         actions: {

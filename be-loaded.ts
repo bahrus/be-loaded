@@ -4,7 +4,9 @@ import {importCSS} from './importCSS.js';
 import {register} from "be-hive/register.js";
 
 export class BeLoadedController implements BeLoadedActions{
-    intro(proxy: HTMLStyleElement & BeLoadedVirtualProps): void {
+    #target!: HTMLStyleElement
+    intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void {
+        this.#target = target;
         if(document.readyState === 'loading'){
             proxy.domLoading = true;
             document.addEventListener('DOMContentLoaded', e => {
@@ -23,7 +25,7 @@ export class BeLoadedController implements BeLoadedActions{
         }
         proxy.domLoaded = true;
     }
-    async onLoadParams({fallback, preloadRef,  proxy}: this) {
+    async onLoadParams({fallback, preloadRef,  proxy, removeStyle}: this) {
         const loadParams: ILoadParams = {fallback, preloadRef}; 
         const stylesheet = await this.loadStylesheet(this, loadParams);
         if(stylesheet === true) {
@@ -37,8 +39,23 @@ export class BeLoadedController implements BeLoadedActions{
         }else{
             (rn as any).adoptedStyleSheets = [stylesheet.default];
         }
+        this.doRemoveStyle(this, rn);
     }
-    async onStylesheets({stylesheets, proxy}: this){
+    doRemoveStyle({removeStyle, proxy}: this, rn: DocumentFragment){
+        switch(typeof removeStyle){
+            case 'string':
+                {
+                    const styleToRemove = rn.querySelector(`#${removeStyle}`);
+                    if(styleToRemove !== null) styleToRemove.remove();
+                }
+                break;
+            case 'boolean':
+                if(removeStyle){
+                    this.#target.remove();
+                }
+        }
+    }
+    async onStylesheets({stylesheets, proxy, removeStyle: styleIdToRemove}: this){
         const adoptedStylesheets: StyleSheet[] = [];
         const rn = proxy.getRootNode() as DocumentFragment;
         for(const stylesheet of stylesheets){
@@ -56,6 +73,7 @@ export class BeLoadedController implements BeLoadedActions{
             
         }
         if(adoptedStylesheets.length > 0) (rn as any).adoptedStyleSheets = adoptedStylesheets;
+        this.doRemoveStyle(this, rn);
     }
 
     async loadStylesheet({proxy, domLoading}: this, {fallback, preloadRef}: ILoadParams) {
@@ -91,7 +109,7 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             ifWantsToBe,
             forceVisible: true,
             primaryProp: 'preloadRefs',
-            virtualProps: ['stylesheets', 'fallback', 'preloadRef'],
+            virtualProps: ['stylesheets', 'fallback', 'preloadRef', 'domLoading', 'domLoaded', 'needsRedoing', 'removeStyle'],
             intro: 'intro',
         },
         actions:{

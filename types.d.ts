@@ -11,6 +11,7 @@ export interface ILoadParams{
 
 export interface BeLoadedVirtualProps extends ILoadParams{
     stylesheets: ILoadParams[];
+    removeStyle: string | boolean;
 }
 
 export interface BeLoadedProps extends BeLoadedVirtualProps{
@@ -20,7 +21,7 @@ export interface BeLoadedProps extends BeLoadedVirtualProps{
 export interface BeLoadedActions {
     onLoadParams(self: this): void;
     onStylesheets(self: this): void;
-    intro(proxy: HTMLStyleElement & BeLoadedVirtualProps): void;
+    intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void;
     
 }
 

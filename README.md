@@ -37,15 +37,17 @@ It is best to include some dashes in the id, so the id doesn't conflict with any
 
 I am quite pleased to report that, contrary to my expectations, CSS Module imports don't double download the stylesheet found in a link rel=preload!  Here's to hoping Firefox and Safari follow suit when they get to it.
 
+### Avoiding FOUC
+
+In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any any manipulation by the web component, for example.
+
+To help with this, specify "removeStyle": true.  Once the import is done and added, it will delete the style tag be-loaded is decorated.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
 
 
-Due to current [skypack limitation](https://github.com/skypackjs/skypack-cdn/issues/107), can only work with fully qualified CSS Paths when using a skypack based CDN.
 
+## Fallback to a default stylesheet
 
-If no link tag is found, then throws an error.
-
-
-Example 2.  Fallback to a default stylesheet.
+Example 2. 
 
 ```html
 <link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
@@ -59,7 +61,13 @@ Example 2.  Fallback to a default stylesheet.
 </my-web-component>
 ```
 
-Example 3.  Multiple stylesheets:
+Due to current [skypack limitation](https://github.com/skypackjs/skypack-cdn/issues/107), the fallback can only work with fully qualified CSS Paths when using a skypack based CDN.
+ 
+If using a JSON attribute, the preloadRef now becomes optional.
+
+## Multiple stylesheets
+
+Example 3. 
 
 ```html
 <link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
