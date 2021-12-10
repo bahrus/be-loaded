@@ -41,7 +41,7 @@ I am quite pleased to report that, contrary to my expectations, CSS Module impor
 
 In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any any manipulation by the web component, for example.
 
-To help with this, specify "removeStyle": true.  Once the import is done and added, it will delete the style tag be-loaded is decorated.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
+To help with this, specify "removeStyle": true.  Once the CSS imports are done and added, *be-loaded* will delete the style tag be-loaded is decorating.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
 
 
 
