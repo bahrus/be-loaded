@@ -65,11 +65,11 @@ Example 3.  Multiple stylesheets:
     "stylesheets": [
       {
         "fallback": "./my-default-styles.css",
-        "preloadRefs": "my-web-component-styles"
+        "preloadRef": "my-web-component-styles"
       },
       {
         "fallback": "./your-default-styles.css",
-        "preloadRefs": "your-web-component-styles"
+        "preloadRef": "your-web-component-styles"
       }
     ]
   }'
@@ -77,19 +77,6 @@ Example 3.  Multiple stylesheets:
 </my-web-component>
 ```
 
-Example 4.  Specify to use a style tag rather than css imports
-
-```html
-<link rel=preload as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
-<my-web-component>
-  #Shadow DOM
-  <style be-loaded='{
-    "fallback": "./my-default-styles.css",
-    "preloadRefs": "my-web-component-styles",
-    "as": "styleTag"
-  }'></style>
-</my-web-component>
-```
 
 
 
