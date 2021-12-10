@@ -30,10 +30,16 @@ export class BeLoadedController implements BeLoadedActions{
             return; //need to wait
         }
         if(stylesheet === false) return;
-        (proxy.getRootNode() as any).adoptedStyleSheets = [stylesheet];
+        const rn = proxy.getRootNode() as DocumentFragment;
+        if(stylesheet instanceof HTMLLinkElement){
+            rn.appendChild(stylesheet);
+        }else{
+            (rn as any).adoptedStyleSheets = [stylesheet];
+        }
     }
     async onStylesheets({stylesheets, proxy}: this){
         const adoptedStylesheets: StyleSheet[] = [];
+        const rn = proxy.getRootNode() as DocumentFragment;
         for(const stylesheet of stylesheets){
             const adoptedStylesheet = await this.loadStylesheet(this, stylesheet);
             if(adoptedStylesheet === true) {
@@ -41,9 +47,14 @@ export class BeLoadedController implements BeLoadedActions{
                 return; //need to wait
             }
             if(adoptedStylesheet === false) continue;
-            adoptedStylesheets.push(adoptedStylesheet!);
+            if(stylesheet instanceof HTMLLinkElement){
+                rn.appendChild(stylesheet);
+            }else{
+                adoptedStylesheets.push(adoptedStylesheet! as StyleSheet);
+            }
+            
         }
-        (proxy.getRootNode() as any).adoptedStyleSheets = adoptedStylesheets;
+        if(adoptedStylesheets.length > 0) (rn as any).adoptedStyleSheets = adoptedStylesheets;
     }
 
     async loadStylesheet({proxy, domLoading}: this, {fallback, preloadRef}: ILoadParams) {

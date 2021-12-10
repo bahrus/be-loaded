@@ -29,10 +29,17 @@ export class BeLoadedController {
         }
         if (stylesheet === false)
             return;
-        proxy.getRootNode().adoptedStyleSheets = [stylesheet];
+        const rn = proxy.getRootNode();
+        if (stylesheet instanceof HTMLLinkElement) {
+            rn.appendChild(stylesheet);
+        }
+        else {
+            rn.adoptedStyleSheets = [stylesheet];
+        }
     }
     async onStylesheets({ stylesheets, proxy }) {
         const adoptedStylesheets = [];
+        const rn = proxy.getRootNode();
         for (const stylesheet of stylesheets) {
             const adoptedStylesheet = await this.loadStylesheet(this, stylesheet);
             if (adoptedStylesheet === true) {
@@ -41,9 +48,15 @@ export class BeLoadedController {
             }
             if (adoptedStylesheet === false)
                 continue;
-            adoptedStylesheets.push(adoptedStylesheet);
+            if (stylesheet instanceof HTMLLinkElement) {
+                rn.appendChild(stylesheet);
+            }
+            else {
+                adoptedStylesheets.push(adoptedStylesheet);
+            }
         }
-        proxy.getRootNode().adoptedStyleSheets = adoptedStylesheets;
+        if (adoptedStylesheets.length > 0)
+            rn.adoptedStyleSheets = adoptedStylesheets;
     }
     async loadStylesheet({ proxy, domLoading }, { fallback, preloadRef }) {
         if (preloadRef !== undefined) {
