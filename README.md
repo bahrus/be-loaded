@@ -1,6 +1,6 @@
-# be-loaded [WIP]
+# be-loaded
 
-be-loaded is a web component decorator that allows a web component to import resources configured via index.html, but default to some internally provided resource if the resource configuration is not found.
+be-loaded is a web component decorator that allows a web component to import CSS configured via index.html, but default to some internally provided CSS if the resource configuration is not found.
 
 ## Stylesheets
 
@@ -16,7 +16,7 @@ Example 1.
     ...
     <my-web-component>
       #Shadow DOM
-      <style be-loaded=my-web-component-styles></style>
+      <style be-loaded=my-web-component-styles.css></style>
     </my-web-component>
   </body>
 </html>
@@ -27,11 +27,17 @@ If a web component won't load right away, place the link tag outside any shadow 
 ```html
 <body>
   ...
-  <link rel=lazy as=stylesheet id=my-web-component-styles href="./my-customized-styles.css">
+  <link rel=lazy as=stylesheet id=my-web-component-styles.css href="./my-customized-styles.css">
 </body>
 ```
 
-Defaults to using CSS Module import (does that respect preload without double loading?  Would not be at all surprised if it doesn't, based on how many inconsistencies there are with preload implementations.)
+It is best to include some dashes in the id, so the id doesn't conflict with any global JavaScript constants the application may be using.
+
+*be-loaded* defaults uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now).
+
+I am quite pleased to report that, contrary to my expectations, CSS Module imports don't double download the stylesheet found in a link rel=preload!  Here's to hoping Firefox and Safari follow suit when they get to it.
+
+
 
 Due to current [skypack limitation](https://github.com/skypackjs/skypack-cdn/issues/107), can only work with fully qualified CSS Paths when using a skypack based CDN.
 
