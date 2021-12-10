@@ -6,6 +6,7 @@ export interface ILoadParams{
     domLoaded?: boolean;
     domLoading?: boolean;
     needsRedoing?: boolean;
+    ifMedia?: string;
     
 }
 
