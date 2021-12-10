@@ -1,6 +1,7 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
 import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams} from './types';
 import {importCSS} from './importCSS.js';
+import {register} from "be-hive/register.js";
 
 export class BeLoadedController implements BeLoadedActions{
     intro(proxy: HTMLStyleElement & BeLoadedVirtualProps): void {
@@ -106,4 +107,6 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
         controller: BeLoadedController,
     }
 });
+
+register(ifWantsToBe, upgrade, tagName);
 

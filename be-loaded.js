@@ -1,5 +1,6 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { importCSS } from './importCSS.js';
+import { register } from "be-hive/register.js";
 export class BeLoadedController {
     intro(proxy) {
         if (document.readyState === 'loading') {
@@ -103,3 +104,4 @@ define({
         controller: BeLoadedController,
     }
 });
+register(ifWantsToBe, upgrade, tagName);
