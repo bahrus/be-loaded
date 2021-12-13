@@ -19,7 +19,7 @@ Example 1.
     ...
     <my-web-component>
       #Shadow DOM
-      <style hidden be-loaded=my-web-component-styles.css></style>
+      <style  be-loaded=my-web-component-styles.css></style>
     </my-web-component>
   </body>
 </html>
@@ -57,7 +57,7 @@ Example 2.
 ...
 <my-web-component>
   #Shadow DOM
-  <style hidden be-loaded='{
+  <style  be-loaded='{
     "fallback": "./my-default-styles.css",
     "preloadRef": "my-web-component-styles",
     "removeStyle": true
@@ -78,7 +78,7 @@ Example 3.
 <link rel=preload as=stylesheet id=your-web-component-styles href="./your-customized-styles.css">
 <my-web-component>
   #Shadow DOM
-  <style hidden be-loaded='
+  <style  be-loaded='
   {
     "stylesheets": [
       {
