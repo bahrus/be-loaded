@@ -39,9 +39,10 @@ export class BeLoadedController implements BeLoadedActions{
         }else{
             (rn as any).adoptedStyleSheets = [stylesheet.default];
         }
-        setTimeout(() => {
-            this.doRemoveStyle(this, rn);
-        }, 20);
+        this.doRemoveStyle(this, rn);
+        // setTimeout(() => {
+        //     this.doRemoveStyle(this, rn);
+        // }, 20);
     }
     doRemoveStyle({removeStyle, proxy}: this, rn: DocumentFragment){
         switch(typeof removeStyle){
