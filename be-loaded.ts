@@ -107,7 +107,7 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
         propDefaults:{
             upgrade,
             ifWantsToBe,
-            forceVisible: true,
+            forceVisible: ['style'],
             primaryProp: 'preloadRefs',
             virtualProps: ['stylesheets', 'fallback', 'preloadRef', 'domLoading', 'domLoaded', 'needsRedoing', 'removeStyle'],
             intro: 'intro',
