@@ -39,7 +39,9 @@ export class BeLoadedController {
         else {
             rn.adoptedStyleSheets = [stylesheet.default];
         }
-        this.doRemoveStyle(this, rn);
+        setTimeout(() => {
+            this.doRemoveStyle(this, rn);
+        }, 20);
     }
     doRemoveStyle({ removeStyle, proxy }, rn) {
         switch (typeof removeStyle) {
