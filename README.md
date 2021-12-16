@@ -13,7 +13,7 @@ Example 1.
 ```html
 <html>
   <head>
-    <link rel=preload as=script id=my-web-component-styles.css href="./my-customized-styles.css">
+    <link rel=preload as=script id=my-web-component-styles.css href="./my-customized-styles.css" crossoriging=anonymous>
   </head>
   <body>
     ...
