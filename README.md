@@ -13,7 +13,7 @@ Example 1.
 ```html
 <html>
   <head>
-    <link rel=preload as=script id=my-web-component-styles.css href="./my-customized-styles.css" crossoriging=anonymous>
+    <link rel=preload as=script id=my-web-component-styles.css href="./my-customized-styles.css" crossorigin=anonymous>
   </head>
   <body>
     ...
@@ -36,7 +36,7 @@ If a web component won't load right away, place the link tag outside any shadow 
 
 It is best to include some dashes and/or periods in the id, so the id doesn't conflict with any global JavaScript constants the application may be using.
 
-*be-loaded* defaults uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now).
+*be-loaded* uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now).
 
 I am quite pleased to report that, contrary to my expectations, CSS Module imports don't double download the stylesheet found in a link rel=preload!  Here's to hoping Firefox and Safari follow suit when they get to it.
 
