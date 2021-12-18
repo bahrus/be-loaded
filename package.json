@@ -13,7 +13,8 @@
   "exports": {
     ".": "./be-loaded.js",
     "./be-loaded.js": "./be-loaded.js",
-    "./importCSS.js": "./importCSS.js"
+    "./importCSS.js": "./importCSS.js",
+    "./importJSON.js": "./importJSON.js"
   },
   "files": [
     "*.*"
