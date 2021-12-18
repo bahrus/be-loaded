@@ -97,21 +97,15 @@ Example 3.
 
 ## Support for Media Queries [TODO]
 
-## JSON [TODO]
+## JSON
 
-```html
+A Javascript api is available for importing JSON:
 
-<link rel=preload as=script id=my-web-component-config href="./my-customized-config.json">
-<my-web-component>
-  #Shadow DOM
-  <script type=application/json be-loaded=my-web-component-config>
-    "my-sub-component": {
-
-    }
-  </script>
-  <my-sub-component -prop1></my-sub-component>
-</my-web-component>
+```TypeScript
+export async function importJSON(preloadRef: string, fallbackUrl: string): Promise<any>
 ```
+
+It provides a similar service to the CSS support listed above, but it can only be invoked programmatically.
 
 ## XSLT [TODO]
 
