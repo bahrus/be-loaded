@@ -7,10 +7,11 @@ export async function importJSON(preloadRef, fallbackUrl) {
     if (preload !== undefined) {
         url = preload.href;
     }
-    if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+    try {
         return await doImport(url);
     }
-    else {
+    catch (e) {
+        console.warn(e);
         const resp = await fetch(url);
         return await resp.json();
     }
