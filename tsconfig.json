@@ -10,7 +10,8 @@
 	},
 	"files":[
 		"be-loaded.ts",
-		"importCSS.ts"
+		"importCSS.ts",
+		"importJSON.ts"
 	],
 	"exclude":[
 		"node_modules"
