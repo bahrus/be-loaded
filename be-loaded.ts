@@ -119,9 +119,7 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             onLoadParams:{
                 ifKeyIn:['fallback', 'preloadRef', 'domLoaded'],
             },
-            onStylesheets:{
-                ifAllOf:['stylesheets']
-            }
+            onStylesheets:'stylesheets'
         }
     },
     complexPropDefaults:{
