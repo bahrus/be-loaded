@@ -13,7 +13,8 @@ export async function importJSON(preloadRef: string, fallbackUrl: string = 'http
     }catch(e){
         console.warn(e);
         const resp = await fetch(url);
-        return await resp.json();
+        const def =  await resp.json();
+        return {default: def};
     }
         
 }

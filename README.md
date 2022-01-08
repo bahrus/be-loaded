@@ -3,7 +3,7 @@
 be-loaded is a web component decorator that allows:
 
 1) a web component to import CSS configured via index.html, but default to some internally provided CSS if the resource configuration is not found.
-2) a JSON import to follow a similar pattern. [TODO]
+2) a JSON import to follow a similar pattern. 
 
 ## Stylesheets
 

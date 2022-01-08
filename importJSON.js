@@ -13,6 +13,7 @@ export async function importJSON(preloadRef, fallbackUrl = 'https://www.jsdelivr
     catch (e) {
         console.warn(e);
         const resp = await fetch(url);
-        return await resp.json();
+        const def = await resp.json();
+        return { default: def };
     }
 }
