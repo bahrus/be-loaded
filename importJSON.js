@@ -1,7 +1,7 @@
 //https://davidwalsh.name/async-function-class
 const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
 const doImport = (new AsyncFunction('path', 'return await import(path, {assert: {type: "json"}});'));
-export async function importJSON(preloadRef, fallbackUrl = 'https://cdb.jsdelivr.net/' + preloadRef) {
+export async function importJSON(preloadRef, fallbackUrl = 'https://cdn.jsdelivr.net/' + preloadRef) {
     const preload = self[preloadRef];
     let url = fallbackUrl;
     if (preload !== undefined) {
