@@ -79,7 +79,7 @@ export class BeLoadedController implements BeLoadedActions{
         this.doRemoveStyle(this, rn);
     }
 
-    async loadStylesheet({proxy, domLoading}: this, {fallback, preloadRef}: ILoadParams) {
+    async loadStylesheet({proxy, domLoading}: this, {fallback, preloadRef}: ILoadParams) : Promise<boolean | StylesheetImport | HTMLLinkElement> {
         if(preloadRef !== undefined){
             const link = (<any>self)[preloadRef] as HTMLLinkElement;
             if(link !== undefined){
@@ -89,7 +89,13 @@ export class BeLoadedController implements BeLoadedActions{
             }
         }
         if(fallback !== undefined){
-            return await importCSS(fallback);
+            const preloadLink = document.createElement("link");
+            preloadLink.href = fallback;
+            preloadLink.rel = "preload";
+            preloadLink.as = "script";
+            preloadLink.crossOrigin = "anonymous";
+            document.head.appendChild(preloadLink);
+            return await this.loadStylesheet(this, {fallback, preloadRef});
         }else{
             return false;
         }

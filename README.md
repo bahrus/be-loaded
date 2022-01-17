@@ -1,8 +1,8 @@
-# be-loaded
+# be-loaded [WIP]
 
 be-loaded is a web component decorator that allows:
 
-1) a web component to import CSS configured via index.html, but default to some internally provided CSS if the resource configuration is not found.
+1) a web component to import CSS configured via the head tag of index.html (typcally), but default to some internally provided CSS if no such configuration is found.
 2) a JSON import to follow a similar pattern. 
 
 ## Stylesheets
@@ -65,10 +65,8 @@ Example 2.
 </my-web-component>
 ```
 
-Due to current [skypack limitations](https://github.com/skypackjs/skypack-cdn/issues/107), the fallback can only work with fully qualified CSS Paths when using a skypack-based CDN.
+What this does:  If the preloadRef is not found, a preload tag is inserted into document.head, with the href set from the fallback value and the id set to from preloadRef[TODO].
  
-If using a JSON attribute, the preloadRef now becomes optional.
-
 ### Multiple stylesheets
 
 Example 3. 

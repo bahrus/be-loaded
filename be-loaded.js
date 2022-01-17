@@ -92,7 +92,13 @@ export class BeLoadedController {
             }
         }
         if (fallback !== undefined) {
-            return await importCSS(fallback);
+            const preloadLink = document.createElement("link");
+            preloadLink.href = fallback;
+            preloadLink.rel = "preload";
+            preloadLink.as = "script";
+            preloadLink.crossOrigin = "anonymous";
+            document.head.appendChild(preloadLink);
+            return await this.loadStylesheet(this, { fallback, preloadRef });
         }
         else {
             return false;
