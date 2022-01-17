@@ -65,7 +65,7 @@ Example 2.
 </my-web-component>
 ```
 
-What this does:  If the preloadRef is not found, a preload tag is inserted into document.head, with the href set from the fallback value and the id set to from preloadRef[TODO].
+What this does:  If the preloadRef is not found, a preload tag is inserted into document.head, with the href set from the fallback value and the id set to from preloadRef.
  
 ### Multiple stylesheets
 
