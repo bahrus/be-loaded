@@ -80,16 +80,16 @@ export class BeLoadedController implements BeLoadedActions{
     }
 
     async loadStylesheet({proxy, domLoading}: this, {fallback, preloadRef}: ILoadParams) : Promise<boolean | StylesheetImport | HTMLLinkElement> {
-        if(preloadRef !== undefined){
-            const link = (<any>self)[preloadRef] as HTMLLinkElement;
-            if(link !== undefined){
-                return await importCSS(link.href!);
-            }else if(domLoading){
-                return true;
-            }
-        }else{
+        if(preloadRef === undefined){
             throw 'preloadRef is required';
         }
+        const link = (<any>self)[preloadRef] as HTMLLinkElement;
+        if(link !== undefined){
+            return await importCSS(link.href!);
+        }else if(domLoading){
+            return true;
+        }
+            
         if(fallback !== undefined){
             const preloadLink = document.createElement("link");
             preloadLink.href = fallback;
