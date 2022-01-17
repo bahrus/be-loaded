@@ -87,6 +87,8 @@ export class BeLoadedController implements BeLoadedActions{
             }else if(domLoading){
                 return true;
             }
+        }else{
+            throw 'preloadRef is required';
         }
         if(fallback !== undefined){
             const preloadLink = document.createElement("link");
