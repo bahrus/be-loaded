@@ -94,6 +94,7 @@ export class BeLoadedController {
         if (fallback !== undefined) {
             const preloadLink = document.createElement("link");
             preloadLink.href = fallback;
+            preloadLink.id = preloadRef;
             preloadLink.rel = "preload";
             preloadLink.as = "script";
             preloadLink.crossOrigin = "anonymous";
