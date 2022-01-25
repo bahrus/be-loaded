@@ -5,7 +5,7 @@ export class BeLoadedController {
     #target;
     intro(proxy, target) {
         this.#target = target;
-        if (document.readyState !== 'loading') {
+        if (document.readyState === 'loading') {
             console.log(target, 'readyState =' + document.readyState);
             proxy.domLoading = true;
             document.addEventListener('DOMContentLoaded', e => {

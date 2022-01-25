@@ -7,7 +7,7 @@ export class BeLoadedController implements BeLoadedActions{
     #target!: HTMLStyleElement
     intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void {
         this.#target = target;
-        if(document.readyState !== 'loading'){
+        if(document.readyState === 'loading'){
             console.log(target, 'readyState =' +  document.readyState)
             proxy.domLoading = true;
             document.addEventListener('DOMContentLoaded', e => {
