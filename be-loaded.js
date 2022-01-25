@@ -4,6 +4,7 @@ import { register } from "be-hive/register.js";
 export class BeLoadedController {
     #target;
     intro(proxy, target) {
+        console.log('intro', { proxy, target });
         this.#target = target;
         if (document.readyState === 'loading') {
             console.log(target, 'readyState =' + document.readyState);
@@ -24,6 +25,7 @@ export class BeLoadedController {
             }, { once: true });
             return;
         }
+        console.log('setting domLoaded = true');
         proxy.domLoaded = true;
     }
     async onLoadParams({ fallback, preloadRef, proxy }) {
