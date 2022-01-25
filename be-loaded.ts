@@ -28,7 +28,7 @@ export class BeLoadedController implements BeLoadedActions{
         }
         proxy.domLoaded = true;
     }
-    async onLoadParams({fallback, preloadRef,  proxy, removeStyle}: this) {
+    async onLoadParams({fallback, preloadRef,  proxy}: this) {
         console.log({fallback, preloadRef, proxy}, 'onLoadParams');
         const loadParams: ILoadParams = {fallback, preloadRef}; 
         const stylesheet = await this.loadStylesheet(this, loadParams);
@@ -144,7 +144,7 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
         },
         actions:{
             onLoadParams:{
-                ifKeyIn:['fallback', 'preloadRef', 'domLoaded'],
+                ifAllOf:['fallback', 'preloadRef', 'domLoaded'],
             },
             onStylesheets:'stylesheets'
         }

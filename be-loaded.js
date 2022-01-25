@@ -26,7 +26,7 @@ export class BeLoadedController {
         }
         proxy.domLoaded = true;
     }
-    async onLoadParams({ fallback, preloadRef, proxy, removeStyle }) {
+    async onLoadParams({ fallback, preloadRef, proxy }) {
         console.log({ fallback, preloadRef, proxy }, 'onLoadParams');
         const loadParams = { fallback, preloadRef };
         const stylesheet = await this.loadStylesheet(this, loadParams);
@@ -140,7 +140,7 @@ define({
         },
         actions: {
             onLoadParams: {
-                ifKeyIn: ['fallback', 'preloadRef', 'domLoaded'],
+                ifAllOf: ['fallback', 'preloadRef', 'domLoaded'],
             },
             onStylesheets: 'stylesheets'
         }
