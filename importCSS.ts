@@ -5,7 +5,6 @@ const doImport = (new AsyncFunction('path', 'return await import(path, {assert: 
 
 export async function importCSS(url: string) {
     try{
-        //console.log(`importing ${url}`);
         return  await doImport(url);
     }catch(e){
         console.warn(e);
