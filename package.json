@@ -29,7 +29,7 @@
   "dependencies": {
     "xtal-element": "0.0.462",
     "trans-render": "0.0.449",
-    "be-decorated": "0.0.68",
+    "be-decorated": "0.0.69",
     "be-hive": "0.0.20"
   },
   "devDependencies": {
