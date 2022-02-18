@@ -1,5 +1,4 @@
 import { define } from 'be-decorated/be-decorated.js';
-import { importCSS } from './importCSS.js';
 import { register } from "be-hive/register.js";
 export class BeLoadedController {
     #target;
@@ -85,6 +84,7 @@ export class BeLoadedController {
         }
         const link = self[preloadRef];
         if (link !== undefined) {
+            const { importCSS } = await import('./importCSS.js');
             return await importCSS(link.href);
         }
         else if (domLoading) {

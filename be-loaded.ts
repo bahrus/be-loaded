@@ -1,6 +1,5 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
 import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams, StylesheetImport} from './types';
-import {importCSS} from './importCSS.js';
 import {register} from "be-hive/register.js";
 
 export class BeLoadedController implements BeLoadedActions{
@@ -84,6 +83,7 @@ export class BeLoadedController implements BeLoadedActions{
         }
         const link = (<any>self)[preloadRef] as HTMLLinkElement;
         if(link !== undefined){
+            const {importCSS} = await import('./importCSS.js');
             return await importCSS(link.href!);
         }else if(domLoading){
             return true;
