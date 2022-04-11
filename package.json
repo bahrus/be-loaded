@@ -1,6 +1,6 @@
 {
   "name": "be-loaded",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "be-loaded is a web component decorator that allows a web component to import resources configured via index.html",
   "main": "be-loaded.js",
   "module": "be-loaded.js",
