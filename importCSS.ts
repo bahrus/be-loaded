@@ -1,7 +1,13 @@
 import {StylesheetImport} from './types';
 //https://davidwalsh.name/async-function-class
+//needed for CDN support
 const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
-const doImport = (new AsyncFunction('path', 'return await import(path, {assert: {type: "css"}});')) as (url: string) => Promise<StylesheetImport>;
+let doImport: any;
+try{
+    doImport = (new AsyncFunction('path', 'return await import(path, {assert: {type: "css"}});')) as (url: string) => Promise<StylesheetImport>;
+}catch(e){
+    console.warn(e);
+}
 
 export async function importCSS(url: string) {
     try{

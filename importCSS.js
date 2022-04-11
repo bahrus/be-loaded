@@ -1,6 +1,13 @@
 //https://davidwalsh.name/async-function-class
+//needed for CDN support
 const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
-const doImport = (new AsyncFunction('path', 'return await import(path, {assert: {type: "css"}});'));
+let doImport;
+try {
+    doImport = (new AsyncFunction('path', 'return await import(path, {assert: {type: "css"}});'));
+}
+catch (e) {
+    console.warn(e);
+}
 export async function importCSS(url) {
     try {
         return await doImport(url);
