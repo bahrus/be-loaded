@@ -17,7 +17,8 @@
     "./importJSON.js": "./importJSON.js"
   },
   "files": [
-    "*.*"
+    "*.*",
+    "demo/*.*"
   ],
   "types": "types.d.ts",
   "scripts": {

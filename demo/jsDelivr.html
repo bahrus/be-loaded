@@ -7,8 +7,31 @@
     <title>Document</title>
 </head>
 <body>
+    <my-web-component>
+        <template shadowroot='open'>
+            <style  be-loaded='{
+                "preloadRef": "be-loaded/be-loaded",
+                "fallback": "https://cdn.jsdelivr.net/npm/be-loaded@0.0.56/demo/dev.css"
+            }'></style>
+            <div>hello</div>
+            <be-hive></be-hive>
+        </template>
+        
+      </my-web-component>
     <script type=module>
-        import 'https://esm.run/be-loaded';
+        import 'https://esm.run/be-loaded@0.0.55';
     </script>
+    <script>
+    (function attachShadowRoots(root) {
+        root.querySelectorAll("template[shadowroot]").forEach(template => {
+          const mode = template.getAttribute("shadowroot");
+          const shadowRoot = template.parentNode.attachShadow({ mode });
+          shadowRoot.appendChild(template.content);
+          template.remove();
+          attachShadowRoots(shadowRoot);
+        });
+      })(document);
+    </script>
+
 </body>
 </html>
