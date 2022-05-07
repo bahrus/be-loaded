@@ -88,9 +88,11 @@ ref can also just be a string.  In this case, the version will be assumed to be 
 
 ### Avoiding FOUC
 
-In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any manipulation by the web component, for example.
+One disadvantage of external css references is that it can interfere with the ability to [render while streaming](https://www.youtube.com/watch?v=3sMflOp5kiQ).  be-loaded imposes no blocking, but then we are back to the question of how to avoid FOUC.
 
-To help with this, specify "removeStyle": true.  Once the CSS imports are done and added, *be-loaded* will delete the style tag be-loaded is decorating.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
+In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any manipulation by the web component, for example.  But in some cases, it may be possible to provide some minimal styling that makes the stream / rendering acceptable (like the basic color scheme), and apply various styles like a layer cake as they come in.  
+
+One feature be-loaded provides To help with this, is specifying "removeStyle": true.  Once the CSS imports are done and added, *be-loaded* will delete the style tag be-loaded is decorating.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
  
 ### Multiple stylesheets [TODO]
 
@@ -101,24 +103,9 @@ Example 3.
 <link rel=preload as=script id=your-web-component-styles href="./your-customized-styles.css">
 <my-web-component>
   #Shadow DOM
-  <style  be-loaded='
-  {
-    "stylesheets": [
-      {
-        "fallback": "./my-default-styles.css",
-        "preloadRef": "my-web-component-styles"
-      },
-      {
-        "fallback": "./your-default-styles.css",
-        "preloadRef": "your-web-component-styles"
-      }
-    ]
-  }'
-  ></style>
+  <style  be-loaded='["my-web-component/my-web-component-styles.css", "your-web-component/your-web-component-styles.css"]'></style>
 </my-web-component>
 ```
-
-
 
 
 
