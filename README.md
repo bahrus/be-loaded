@@ -32,7 +32,7 @@ If a web component won't load right away, place the link tag outside any shadow 
 ```html
 <body>
   ...
-  <link rel=lazy as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
+  <link rel=lazy be-preemptive as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
 </body>
 ```
 
@@ -51,11 +51,7 @@ Perhaps more importantly, it is suggested that the id match the same syntax that
 
 I am quite pleased to report that, contrary to my expectations, CSS Module imports don't double download the stylesheet found in a link rel=preload!  Here's to hoping Firefox and Safari follow suit when they get to it.
 
-### Avoiding FOUC
 
-In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any manipulation by the web component, for example.
-
-To help with this, specify "removeStyle": true.  Once the CSS imports are done and added, *be-loaded* will delete the style tag be-loaded is decorating.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
 
 
 
@@ -73,7 +69,7 @@ But to my knowledge there isn't an established equivalent pattern established fo
 
 2.  Resolve to a hardcoded cdn path.
 
-be-loaded, by default, employes option 2, using jsdelivr as the CDN.  To use a different CDN, set the "CDNFallback" property to the base URL of the CDN.  be-loaded will again create a link tag in the header with the mapping, as a signal to other instances.
+be-loaded, by default, employs option 2, using jsdelivr as the CDN.  To use a different CDN, set the "CDNFallback" property to the base URL of the CDN.  be-loaded will again create a link tag in the header with the mapping, as a signal to other instances.
 
 Example 2. 
 
@@ -91,6 +87,11 @@ Example 2.
 </my-web-component>
 ```
 
+### Avoiding FOUC
+
+In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any manipulation by the web component, for example.
+
+To help with this, specify "removeStyle": true.  Once the CSS imports are done and added, *be-loaded* will delete the style tag be-loaded is decorating.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
  
 ### Multiple stylesheets [TODO]
 
