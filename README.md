@@ -2,7 +2,7 @@
 
 be-loaded is a web component decorator that allows:
 
-1) a web component to import CSS configured via the head tag of index.html (typcally), but default to some internally provided CSS if no such configuration is found.
+1) a web component to import CSS configured via the head tag of index.html (typically), but default to some internally provided CSS if no such configuration is found.
 2) a JSON import to follow a similar pattern. 
 
 ## Stylesheets
@@ -13,19 +13,19 @@ Example 1.
 ```html
 <html>
   <head>
-    <link rel=preload as=script id=my-web-component-styles.css href="./my-customized-styles.css" crossorigin=anonymous>
+    <link rel=preload as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css" crossorigin=anonymous>
   </head>
   <body>
     ...
     <my-web-component>
       #Shadow DOM
-      <style  be-loaded=my-web-component-styles.css></style>
+      <style  be-loaded=my-web-component/my-web-component-styles.css></style>
     </my-web-component>
   </body>
 </html>
 ```
 
-If a web component won't load right away, place the link tag outside any shadow DOM, but near the end of the html document, and use lazy as the value of rel:
+If a web component won't load right away, place the link tag outside any shadow DOM, but before the first instance the web component appears, and use lazy as the value of rel:
 
 ```html
 <body>
@@ -35,6 +35,15 @@ If a web component won't load right away, place the link tag outside any shadow 
 ```
 
 It is best to include some dashes and/or periods in the id, so the id doesn't conflict with any global JavaScript constants the application may be using.
+
+## Integration with import maps [TODO]
+
+Perhaps more importantly, it is suggested that the id match what the same syntax that import maps uses.  This way, be-loaded can do the following:
+
+1.  Look for a link tag as shown above.
+2.  If not found, try doing a dynamic import with assert: {type: 'css'}.
+3.  If that fails, try the fallback stylesheet, described below
+
 
 *be-loaded* uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now).
 
