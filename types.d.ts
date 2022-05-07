@@ -1,10 +1,10 @@
 import {BeDecoratedProps} from 'be-decorated/types';
 
+
+
 export interface ILoadParams{
     preloadRef?: string;
     fallback?: string;
-    domLoaded?: boolean;
-    domLoading?: boolean;
     needsRedoing?: boolean;
     ifMedia?: string;
     

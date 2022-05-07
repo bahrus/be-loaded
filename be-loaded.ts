@@ -6,23 +6,6 @@ export class BeLoadedController implements BeLoadedActions{
     #target!: HTMLStyleElement
     intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void {
         this.#target = target;
-        if(document.readyState === 'loading'){
-            proxy.domLoading = true;
-            document.addEventListener('DOMContentLoaded', e => {
-                proxy.domLoading = false;
-                proxy.domLoaded = true;
-                if(proxy.needsRedoing){
-                    if(proxy.stylesheets !== undefined){
-                        this.onStylesheets(this);
-                    }else{
-                        this.onLoadParams(this);
-                    }
-                }
-            
-            }, {once: true});
-            return;
-        }
-        proxy.domLoaded = true;
     }
     async onLoadParams({fallback, preloadRef,  proxy}: this) {
         const loadParams: ILoadParams = {fallback, preloadRef}; 
@@ -77,7 +60,7 @@ export class BeLoadedController implements BeLoadedActions{
         this.doRemoveStyle(this, rn);
     }
 
-    async loadStylesheet({proxy, domLoading}: this, {fallback, preloadRef}: ILoadParams) : Promise<boolean | StylesheetImport | HTMLLinkElement> {
+    async loadStylesheet({proxy}: this, {fallback, preloadRef}: ILoadParams) : Promise<StylesheetImport | HTMLLinkElement> {
         if(preloadRef === undefined){
             throw 'preloadRef is required';
         }
@@ -85,8 +68,6 @@ export class BeLoadedController implements BeLoadedActions{
         if(link !== undefined){
             const {importCSS} = await import('./importCSS.js');
             return await importCSS(link.href!);
-        }else if(domLoading){
-            return true;
         }
             
         if(fallback !== undefined){

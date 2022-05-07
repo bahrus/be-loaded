@@ -5,7 +5,7 @@ be-loaded is a web component decorator / behavior that allows:
 1) a web component to import CSS configured via the head tag of index.html (typically), but default to some internally provided CSS if no such configuration is found.
 2) a JSON import to follow a similar pattern. 
 
-If the web component's internally provided CSS is also a separate file that is to be imported, then one important goal of this component is that the web component consumer can adopt an alternative theme for the component without incurring any penalty from the default styles the component provides.
+If the web component's internally provided CSS is also a separate file that is to be imported, then one important goal of the be-loaded decorator is that the web component consumer can adopt an alternative theme for the component without incurring any penalty from the default styles the component provides.
 
 ## Stylesheets
 
@@ -40,14 +40,14 @@ It is best to include some dashes and/or periods in the id, so the id doesn't co
 
 ## Integration with import maps [TODO]
 
-Perhaps more importantly, it is suggested that the id match what the same syntax that import maps uses.  This way, be-loaded can do the following:
+Perhaps more importantly, it is suggested that the id match the same syntax that import maps uses.  This way, be-loaded can do the following:
 
 1.  Look for a link tag as shown above.
-2.  If not found, try doing a dynamic import with assert: {type: 'css'}.
-3.  If that fails, try the fallback stylesheet, described below
+2.  If not found, try doing a dynamic import with assert: {type: 'css'} of that id.
+3.  If that fails, try the fallback stylesheet, described below.
 
 
-*be-loaded* uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now).
+*be-loaded* uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now). [TODO - figure out how to do this via feature testing].
 
 I am quite pleased to report that, contrary to my expectations, CSS Module imports don't double download the stylesheet found in a link rel=preload!  Here's to hoping Firefox and Safari follow suit when they get to it.
 
