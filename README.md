@@ -1,9 +1,11 @@
 # be-loaded [WIP]
 
-be-loaded is a web component decorator that allows:
+be-loaded is a web component decorator / behavior that allows:
 
 1) a web component to import CSS configured via the head tag of index.html (typically), but default to some internally provided CSS if no such configuration is found.
 2) a JSON import to follow a similar pattern. 
+
+If the web component's internally provided CSS is also a separate file that is to be imported, then one important goal of this component is that the web component consumer can adopt an alternative theme for the component without incurring any penalty from the default styles the component provides.
 
 ## Stylesheets
 
@@ -30,7 +32,7 @@ If a web component won't load right away, place the link tag outside any shadow 
 ```html
 <body>
   ...
-  <link rel=lazy as=script id=my-web-component-styles.css href="./my-customized-styles.css">
+  <link rel=lazy as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
 </body>
 ```
 
