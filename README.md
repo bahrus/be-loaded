@@ -84,7 +84,7 @@ be-loaded, by default, employs option 2, using jsdelivr as the CDN.  To use a di
 </my-web-component>
 ```
 
-ref can also just be a string.  In this case, the version will be assumed to be unspecified (empty).  Version is ommitted when formulating the id used to find link tags / import maps.
+ref can also just be a string.  In this case, the version will be assumed to be unspecified (empty).  Version is omitted when formulating the id used to find link tags / import maps.
 
 ### Avoiding FOUC
 
