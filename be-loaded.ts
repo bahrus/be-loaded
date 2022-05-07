@@ -10,13 +10,6 @@ export class BeLoadedController implements BeLoadedActions{
     async onLoadParams({fallback, preloadRef,  proxy}: this) {
         const loadParams: ILoadParams = {fallback, preloadRef}; 
         const stylesheet = await this.loadStylesheet(this, loadParams);
-        if(stylesheet === true) {
-            proxy.needsRedoing = true;
-            return; //need to wait
-        }
-        if(stylesheet === false) {
-            return;
-        }
         const rn = proxy.getRootNode() as DocumentFragment;
         if(stylesheet instanceof HTMLLinkElement){
             rn.appendChild(stylesheet);

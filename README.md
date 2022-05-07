@@ -61,24 +61,38 @@ To help with this, specify "removeStyle": true.  Once the CSS imports are done a
 
 ### Fallback to a default stylesheet
 
+So what if the web component is used in an environment where no link tag is provided, nor an import map, such as a bundling environment, or an environment that simply won't follow your instructions, despite your best efforts?  We have two ways to go:  
+
+1.  Try to resolve to the local co-located file.  As far as bundling, this will most likely a plug-in.  Most bundling solutions are totally focused around JS files, and I suspect will soon provide support for bundling that has this JavaScript:
+
+```JavaScript
+import styles from "./my-web-component-styles.css" assert { type: "css" };
+```
+
+But to my knowledge there isn't an established equivalent pattern established for declarative solutions, as we are pursuing.  So that's a [TODO] item for this component.  One easy solution in the absence of such a solution is for the may-it-be transpiler to provide an option to output a "bundled" version of the component, inlining the styles, which means no opportunities to override the styles without a serious penalty. [TODO]
+
+2.  Resolve to a hardcoded cdn path.
+
+be-loaded, by default, employes option 2, using jsdelivr as the CDN.  To use a different CDN, set the "CDNFallback" property to the base URL of the CDN.  be-loaded will again create a link tag in the header with the mapping, as a signal to other instances.
+
 Example 2. 
 
 ```html
-<link rel=preload as=script id=my-web-component-styles href="./my-customized-styles.css">
+<link rel=preload as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
 ...
 <my-web-component>
   #Shadow DOM
   <style  be-loaded='{
-    "fallback": "./my-default-styles.css",
-    "preloadRef": "my-web-component-styles",
+    "CDNFallback": "https://unpkg.com/",
+    "ref": ["my-web-component", "version", "/my-web-component-styles.css"],
+    "version": "1.0.0",
     "removeStyle": true
   }'></style>
 </my-web-component>
 ```
 
-What this does:  If the preloadRef is not found, a preload tag is inserted into document.head, with the href set from the fallback value and the id set to from preloadRef.
  
-### Multiple stylesheets
+### Multiple stylesheets [TODO]
 
 Example 3. 
 
