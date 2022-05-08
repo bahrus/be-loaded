@@ -2,10 +2,16 @@
 
 be-loaded is a web component decorator / behavior that allows:
 
-1) a web component to import CSS configured via the head tag of index.html (typically), but default to some internally provided CSS if no such configuration is found.
-2) a JSON import to follow a similar pattern. 
+1)  Declarative imports of CSS Modules without JavaScript.
+2)  A web component consumer can choose to override the default CSS Module, without incurring any penalty from bundling the original CSS Module with the web component definition.
+3)  Fallback on a default CDN if no mapping is provided.
+3) JSON and XSLT imports following similar patterns.
 
-If the web component's internally provided CSS is also a separate file that is to be imported, then one important goal of the be-loaded decorator is that the web component consumer can adopt an alternative theme for the component without incurring any penalty from the default styles the component provides.
+Much or all of this could be accomplished, perhaps, with import maps alone, once they land in all browsers, and with [polyfills in the interim](https://github.com/guybedford/es-module-shims).
+
+And in fact, import maps is one of the two mechanisms be-loaded leans heavily on.
+
+But be-loaded also allows for an alternative / supplementary mechanism for managing theme overrides, via link rel=preload and/or link rel=lazy for less aggressive preemptive downloads (with the help of be-preemptive). 
 
 ## Stylesheets
 
@@ -15,7 +21,7 @@ Example 1.
 ```html
 <html>
   <head>
-    <link rel=preload as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css" crossorigin=anonymous>
+    <link be-preemptive rel=preload as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css" crossorigin=anonymous>
   </head>
   <body>
     ...
@@ -32,7 +38,7 @@ If a web component won't load right away, place the link tag outside any shadow 
 ```html
 <body>
   ...
-  <link rel=lazy be-preemptive as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
+  <link be-preemptive rel=lazy be-preemptive as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
 </body>
 ```
 

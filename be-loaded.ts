@@ -94,12 +94,12 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             ifWantsToBe,
             forceVisible: ['style'],
             primaryProp: 'preloadRefs',
-            virtualProps: ['stylesheets', 'fallback', 'preloadRef', 'domLoading', 'domLoaded', 'needsRedoing', 'removeStyle'],
+            virtualProps: ['stylesheets', 'fallback', 'preloadRef',  'needsRedoing', 'removeStyle'],
             intro: 'intro',
         },
         actions:{
             onLoadParams:{
-                ifAllOf:['fallback', 'preloadRef', 'domLoaded'],
+                ifAllOf:['fallback', 'preloadRef'],
             },
             onStylesheets:'stylesheets'
         }
