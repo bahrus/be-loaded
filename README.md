@@ -48,9 +48,9 @@ It is best to include some dashes and/or periods in the id, so the id doesn't co
 
 Perhaps more importantly, it is suggested that the id match the same syntax that import maps uses.  This way, be-loaded can do the following:
 
-1.  Look for a link tag as shown above.
-2.  If not found, try doing a dynamic import with assert: {type: 'css'} of that id.
-3.  If that fails, try the fallback stylesheet, described below.
+1.  Look for a link tag as shown above.  If found, use the resolved href to perform the CSS Module import (or fetch for browsers that aren't there yet.)
+2.  If not found, try doing a dynamic import with assert: {type: 'css'} of that id.  This relies on import maps to allow for dependency injection of theme overrides.
+3.  If that fails, try the fallback CDN, described below.
 
 
 *be-loaded* uses CSS Module import for Chromium-based browsers, and inserts a link rel=stylesheet tag for non-chromium browsers (for now). [TODO - figure out how to do this via feature testing].
@@ -62,7 +62,7 @@ I am quite pleased to report that, contrary to my expectations, CSS Module impor
 
 So what if the web component is used in an environment where no link tag is provided, nor an import map, such as a bundling environment, or an environment that simply won't follow your instructions, despite your best efforts?  We have two ways to go:  
 
-1.  Try to resolve to the local co-located file.  As far as bundling, this will most likely require plug-in.  Most bundling solutions are totally focused around JS files, and I suspect will soon provide support for bundling that has this JavaScript:
+1.  Try to resolve to the local co-located file.  As far as bundling, this will most likely require a plug-in.  Most bundling solutions are totally focused around JS files, and I suspect will soon provide support for bundling that has this JavaScript:
 
 ```JavaScript
 import styles from "./my-web-component-styles.css" assert { type: "css" };
@@ -77,20 +77,20 @@ One easy solution in the absence of such a solution is for the may-it-be transpi
 be-loaded, by default, employs option 2, using jsdelivr as the CDN.  To use a different CDN, set the "CDNFallback" property to the base URL of the CDN.  be-loaded will again create a link tag in the header with the mapping, as a signal to other instances:
 
 ```html
-<link rel=preload as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
+<link be-pre-emptive rel=lazy as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
 ...
 <my-web-component>
   #Shadow DOM
   <style  be-loaded='{
     "CDNFallback": "https://unpkg.com/",
-    "ref": ["my-web-component", "version", "/my-web-component-styles.css"],
+    "ref": "my-web-component/my-web-component-styles.css",
     "version": "1.0.0",
     "removeStyle": true
   }'></style>
 </my-web-component>
 ```
 
-ref can also just be a string.  In this case, the version will be assumed to be unspecified (empty).  Version is omitted when formulating the id used to find link tags / import maps.
+If a version is provided it is inserted before the first slash as @1.0.0 in this case.
 
 ### Avoiding FOUC
 
