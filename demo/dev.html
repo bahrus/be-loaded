@@ -10,8 +10,9 @@
     <my-web-component>
         <template shadowroot='open'>
             <style  be-loaded='{
-                "preloadRef": "be-loaded/be-loaded",
-                "fallback": "./dev.css"
+                "path": "be-loaded/demo/dev.css",
+                "CDNFallback": "https://unpkg.com/",
+                "version": "1.2.3"
             }'></style>
             <div>hello</div>
             <be-hive></be-hive>
@@ -24,13 +25,14 @@
             "imports": {
                 "be-decorated/": "../node_modules/be-decorated/",
                 "be-hive/": "../node_modules/be-hive/",
+                "be-preemptive/": "../node_modules/be-preemptive/",
                 "xtal-element/": "../node_modules/xtal-element/",
                 "trans-render/": "../node_modules/trans-render/"
             }
         }
     </script>
     <script type=module>
-        import '../be-loaded.js';
+        import '../be-loaded2.js';
     </script>
     <script>
     (function attachShadowRoots(root) {

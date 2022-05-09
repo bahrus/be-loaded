@@ -32,7 +32,7 @@
     "trans-render": "0.0.536",
     "be-decorated": "0.0.113",
     "be-hive": "0.0.45",
-    "be-preemptive": "0.0.1"
+    "be-preemptive": "0.0.2"
   },
   "devDependencies": {
     "may-it-serve": "0.0.0",
