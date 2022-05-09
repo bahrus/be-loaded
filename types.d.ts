@@ -13,6 +13,10 @@ export interface ILoadParams{
 export interface BeLoadedVirtualProps extends ILoadParams{
     // stylesheets: ILoadParams[];
     // removeStyle: string | boolean;
+    CDNFallback: string;
+    path: string;
+    version: string;
+    removeStyle: boolean;
 }
 
 export interface BeLoadedProps extends BeLoadedVirtualProps{

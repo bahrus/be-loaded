@@ -21,6 +21,12 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             upgrade,
             ifWantsToBe,
             forceVisible: ['style'],
+            virtualProps: ['CDNFallback', 'path', 'version', 'removeStyle'],
+            primaryProp: 'path',
+            proxyPropDefaults:{
+                CDNFallback: 'https://cdn.jsdelivr.net/npm/',
+
+            }
         },
         actions:{
         },

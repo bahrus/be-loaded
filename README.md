@@ -83,7 +83,7 @@ be-loaded, by default, employs option 2, using jsdelivr as the CDN.  To use a di
   #Shadow DOM
   <style  be-loaded='{
     "CDNFallback": "https://unpkg.com/",
-    "ref": "my-web-component/my-web-component-styles.css",
+    "path": "my-web-component/my-web-component-styles.css",
     "version": "1.0.0",
     "removeStyle": true
   }'></style>
