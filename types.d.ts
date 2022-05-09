@@ -27,6 +27,7 @@ export interface BeLoadedActions {
     // onLoadParams(self: this): void;
     // onStylesheets(self: this): void;
     // intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void;
+    onPath(self: this): Promise<void>;
     
 }
 

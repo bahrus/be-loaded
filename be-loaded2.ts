@@ -3,7 +3,19 @@ import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams} from 
 import {register} from 'be-hive/register.js';
 
 export class BeLoaded implements BeLoadedActions{
-
+    async onPath({path, proxy}: this): Promise<void> {
+        const link = (<any>self)[path] as HTMLLinkElement | undefined;
+        if(link !== undefined){
+            await import('be-preemptive/be-preemptive.js');
+            const rn = proxy.getRootNode() as DocumentFragment;
+            await customElements.whenDefined('be-preemptive');
+            const ifWantsToBe = (<any>rn.querySelector('be-preemptive')).ifWantsToBe;
+            if(link.hasAttribute('is-' + ifWantsToBe)){
+                const linkOrStylesheet = await (<any>link).beDecorated.preemptive.linkOrStylesheetPromise();
+            }
+            
+        }
+    }
 }
 
 export interface BeLoaded extends BeLoadedProps{}
@@ -29,6 +41,7 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             }
         },
         actions:{
+            onPath:'path',
         },
     },
     complexPropDefaults:{
