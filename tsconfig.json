@@ -9,9 +9,7 @@
 		"watch": true
 	},
 	"files":[
-		"be-loaded.ts",
-		"importCSS.ts",
-		"importJSON.ts"
+		"be-loaded2.ts"
 	],
 	"exclude":[
 		"node_modules"
