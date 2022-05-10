@@ -12,7 +12,7 @@ export class BeLoaded {
             await import('be-preemptive/be-preemptive.js');
             await customElements.whenDefined('be-preemptive');
             const ifWantsToBe = rn.querySelector('be-preemptive').ifWantsToBe;
-            if (link.hasAttribute('is-' + ifWantsToBe)) {
+            if (link.matches(`[is-${ifWantsToBe}],[be-${ifWantsToBe}]`)) {
                 const linkOrStylesheet = await link.beDecorated.preemptive.linkOrStylesheetPromise();
                 if (linkOrStylesheet instanceof HTMLLinkElement) {
                     rn.appendChild(linkOrStylesheet);
