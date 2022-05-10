@@ -1,23 +1,49 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
-import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams, StylesheetImport} from './types';
-import {register} from "be-hive/register.js";
+import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams} from './types';
+import {register} from 'be-hive/register.js';
 
-export class BeLoadedController implements BeLoadedActions{
+export class BeLoaded implements BeLoadedActions{
     #target!: HTMLStyleElement
     intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void {
         this.#target = target;
     }
-    async onLoadParams({fallback, preloadRef,  proxy}: this) {
-        const loadParams: ILoadParams = {fallback, preloadRef}; 
-        const stylesheet = await this.loadStylesheet(this, loadParams);
+    async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
+        const link = (<any>self)[path] as HTMLLinkElement | undefined;
         const rn = proxy.getRootNode() as DocumentFragment;
-        if(stylesheet instanceof HTMLLinkElement){
-            rn.appendChild(stylesheet);
+        if(link !== undefined){
+            await import('be-preemptive/be-preemptive.js');
+            await customElements.whenDefined('be-preemptive');
+            const ifWantsToBe = (<any>rn.querySelector('be-preemptive')).ifWantsToBe;
+            if(link.hasAttribute('is-' + ifWantsToBe)){
+                const linkOrStylesheet = await (<any>link).beDecorated.preemptive.linkOrStylesheetPromise();
+                if(linkOrStylesheet instanceof HTMLLinkElement){
+                    rn.appendChild(linkOrStylesheet);
+                }else{
+                    (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
+                }
+            }
         }else{
-            (rn as any).adoptedStyleSheets = [stylesheet.default];
+            //try doing an import and rely on import maps for dependency injection
+            const {importCSS} = await import('be-preemptive/importCSS.js');
+            const result = await importCSS(path, true);
+            switch(result){
+                case 'SyntaxError':
+                    //no support for import maps either for now (not sure which will come first with firefox/safari)
+                    //do same thing as simply not found?
+                case '404':
+                    const versionedPath = version !== undefined ? path.replace('/', '@' + version + '/') : path;
+                    const linkOrStylesheet =  await importCSS(CDNFallback + versionedPath);
+                    if(linkOrStylesheet instanceof HTMLLinkElement){
+                        rn.appendChild(linkOrStylesheet);
+                    }else if(typeof linkOrStylesheet === 'object'){
+                        (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
+                    }                    
+                break;
+            }
         }
-        this.doRemoveStyle(this, rn);
+        this.doRemoveStyle(this, proxy.getRootNode() as DocumentFragment);
     }
+
     doRemoveStyle({removeStyle, proxy}: this, rn: DocumentFragment){
         switch(typeof removeStyle){
             case 'string':
@@ -30,55 +56,12 @@ export class BeLoadedController implements BeLoadedActions{
                 if(removeStyle){
                     this.#target.innerHTML = '';
                 }
-        }
-    }
-    async onStylesheets({stylesheets, proxy, removeStyle: styleIdToRemove}: this){
-        const adoptedStylesheets: StyleSheet[] = [];
-        const rn = proxy.getRootNode() as DocumentFragment;
-        for(const stylesheet of stylesheets){
-            const adoptedStylesheet = await this.loadStylesheet(this, stylesheet);
-            if(adoptedStylesheet === true) {
-                proxy.needsRedoing = true;
-                return; //need to wait
-            }
-            if(adoptedStylesheet === false) continue;
-            if(stylesheet instanceof HTMLLinkElement){
-                rn.appendChild(stylesheet);
-            }else{
-                adoptedStylesheets.push((adoptedStylesheet! as StylesheetImport).default);
-            }
-            
-        }
-        if(adoptedStylesheets.length > 0) (rn as any).adoptedStyleSheets = adoptedStylesheets;
-        this.doRemoveStyle(this, rn);
-    }
-
-    async loadStylesheet({proxy}: this, {fallback, preloadRef}: ILoadParams) : Promise<StylesheetImport | HTMLLinkElement> {
-        if(preloadRef === undefined){
-            throw 'preloadRef is required';
-        }
-        const link = (<any>self)[preloadRef] as HTMLLinkElement;
-        if(link !== undefined){
-            const {importCSS} = await import('./importCSS.js');
-            return await importCSS(link.href!);
-        }
-            
-        if(fallback !== undefined){
-            const preloadLink = document.createElement("link");
-            preloadLink.href = fallback;
-            preloadLink.id = preloadRef;
-            preloadLink.rel = "preload";
-            preloadLink.as = "script";
-            preloadLink.crossOrigin = "anonymous";
-            document.head.appendChild(preloadLink);
-            return await this.loadStylesheet(this, {fallback, preloadRef});
-        }else{
-            return false;
+                break;
         }
     }
 }
 
-export interface BeLoadedController extends BeLoadedProps{}
+export interface BeLoaded extends BeLoadedProps{}
 
 const tagName = 'be-loaded';
 
@@ -93,21 +76,20 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             upgrade,
             ifWantsToBe,
             forceVisible: ['style'],
-            primaryProp: 'preloadRefs',
-            virtualProps: ['stylesheets', 'fallback', 'preloadRef',  'needsRedoing', 'removeStyle'],
-            intro: 'intro',
+            virtualProps: ['CDNFallback', 'path', 'version', 'removeStyle'],
+            primaryProp: 'path',
+            proxyPropDefaults:{
+                CDNFallback: 'https://cdn.jsdelivr.net/npm/',
+
+            }
         },
         actions:{
-            onLoadParams:{
-                ifAllOf:['fallback', 'preloadRef'],
-            },
-            onStylesheets:'stylesheets'
-        }
+            onPath:'path',
+        },
     },
     complexPropDefaults:{
-        controller: BeLoadedController,
-    }
+        controller: BeLoaded,
+    },
 });
 
 register(ifWantsToBe, upgrade, tagName);
-

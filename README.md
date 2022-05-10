@@ -44,7 +44,7 @@ If a web component won't load right away, place the link tag outside any shadow 
 
 It is best to include some dashes and/or periods in the id, so the id doesn't conflict with any global JavaScript constants the application may be using.
 
-## Integration with import maps [TODO]
+## Integration with import maps
 
 Perhaps more importantly, it is suggested that the id match the same syntax that import maps uses.  This way, be-loaded can do the following:
 
@@ -99,19 +99,6 @@ One disadvantage of external css references is that it can interfere with the ab
 In some scenarios, it is best to display a minimal UI, or no UI at all, while the stylesheet is loading.  While the stylesheet is loading, we could have a slot through which the light children can display unfettered by any manipulation by the web component, for example.  But in some cases, it may be possible to provide some minimal styling that makes the stream / rendering acceptable (like the basic color scheme), and apply various styles like a layer cake as they come in.  
 
 One feature be-loaded provides To help with this, is specifying "removeStyle": true.  Once the CSS imports are done and added, *be-loaded* will delete the style tag be-loaded is decorating.  We can alternatively specify another style tag to delete by setting it to the id of that style tag, via "removeStyle": "style-id-to-remove".
- 
-### Multiple stylesheets [TODO]
-
-Example 3. 
-
-```html
-<link rel=preload as=script id=my-web-component-styles href="./my-customized-styles.css">
-<link rel=preload as=script id=your-web-component-styles href="./your-customized-styles.css">
-<my-web-component>
-  #Shadow DOM
-  <style  be-loaded='["my-web-component/my-web-component-styles.css", "your-web-component/your-web-component-styles.css"]'></style>
-</my-web-component>
-```
 
 
 
