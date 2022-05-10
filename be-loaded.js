@@ -75,7 +75,8 @@ define({
             primaryProp: 'path',
             proxyPropDefaults: {
                 CDNFallback: 'https://cdn.jsdelivr.net/npm/',
-            }
+            },
+            intro: 'intro'
         },
         actions: {
             onPath: 'path',

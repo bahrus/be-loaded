@@ -81,7 +81,8 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
             proxyPropDefaults:{
                 CDNFallback: 'https://cdn.jsdelivr.net/npm/',
 
-            }
+            },
+            intro: 'intro'
         },
         actions:{
             onPath:'path',
