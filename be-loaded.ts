@@ -15,12 +15,14 @@ export class BeLoaded implements BeLoadedActions{
             await customElements.whenDefined('be-preemptive');
             const ifWantsToBe = (<any>rn.querySelector('be-preemptive')).ifWantsToBe;
             if(link.matches(`[is-${ifWantsToBe}],[be-${ifWantsToBe}]`)){
-                const linkOrStylesheet = await (<any>link).beDecorated.preemptive.linkOrStylesheetPromise();
-                if(linkOrStylesheet instanceof HTMLLinkElement){
-                    rn.appendChild(linkOrStylesheet);
-                }else{
-                    (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
-                }
+                (<any>link).beDecorated.preemptive.linkOrStylesheetPromise.then((linkOrStylesheet: any) => {
+                    if(linkOrStylesheet instanceof HTMLLinkElement){
+                        rn.appendChild(linkOrStylesheet);
+                    }else{
+                        (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
+                    }
+                })
+                
             }
         }else{
             //try doing an import and rely on import maps for dependency injection

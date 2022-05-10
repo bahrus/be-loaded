@@ -13,13 +13,14 @@ export class BeLoaded {
             await customElements.whenDefined('be-preemptive');
             const ifWantsToBe = rn.querySelector('be-preemptive').ifWantsToBe;
             if (link.matches(`[is-${ifWantsToBe}],[be-${ifWantsToBe}]`)) {
-                const linkOrStylesheet = await link.beDecorated.preemptive.linkOrStylesheetPromise();
-                if (linkOrStylesheet instanceof HTMLLinkElement) {
-                    rn.appendChild(linkOrStylesheet);
-                }
-                else {
-                    rn.adoptedStyleSheets = [linkOrStylesheet.default];
-                }
+                link.beDecorated.preemptive.linkOrStylesheetPromise.then((linkOrStylesheet) => {
+                    if (linkOrStylesheet instanceof HTMLLinkElement) {
+                        rn.appendChild(linkOrStylesheet);
+                    }
+                    else {
+                        rn.adoptedStyleSheets = [linkOrStylesheet.default];
+                    }
+                });
             }
         }
         else {
