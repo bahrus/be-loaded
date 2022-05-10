@@ -31,8 +31,8 @@
     "xtal-element": "0.0.493",
     "trans-render": "0.0.536",
     "be-decorated": "0.0.113",
-    "be-hive": "0.0.45",
-    "be-preemptive": "0.0.2"
+    "be-hive": "0.0.46",
+    "be-preemptive": "0.0.3"
   },
   "devDependencies": {
     "may-it-serve": "0.0.0",
