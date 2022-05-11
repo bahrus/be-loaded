@@ -8,7 +8,9 @@
     "web-components",
     "web-component",
     "custom-element",
-    "custom-elements"
+    "custom-elements",
+    "preload",
+    "css-modules"
   ],
   "exports": {
     ".": "./be-loaded.js",
