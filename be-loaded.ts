@@ -1,5 +1,5 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
-import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps, ILoadParams} from './types';
+import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps} from './types';
 import {register} from 'be-hive/register.js';
 
 export class BeLoaded implements BeLoadedActions{
