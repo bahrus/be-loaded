@@ -28,20 +28,31 @@ export class BeLoaded implements BeLoadedActions{
             //try doing an import and rely on import maps for dependency injection
             const {importCSS} = await import('be-preemptive/importCSS.js');
             const result = await importCSS(path, true);
-            switch(result){
-                case 'SyntaxError':
-                    //no support for import maps either for now (not sure which will come first with firefox/safari)
-                    //do same thing as simply not found?
-                case '404':
-                    const versionedPath = version !== undefined ? path.replace('/', '@' + version + '/') : path;
-                    const linkOrStylesheet =  await importCSS(CDNFallback + versionedPath);
-                    if(linkOrStylesheet instanceof HTMLLinkElement){
-                        rn.appendChild(linkOrStylesheet);
-                    }else if(typeof linkOrStylesheet === 'object'){
-                        (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
-                    }                    
-                break;
+            switch(typeof result){
+                case 'string':
+                    switch(result){
+                        case 'SyntaxError':
+                            //no support for import maps either for now (not sure which will come first with firefox/safari)
+                            //do same thing as simply not found?
+                        case '404':
+                            const versionedPath = version !== undefined ? path.replace('/', '@' + version + '/') : path;
+                            const linkOrStylesheet =  await importCSS(CDNFallback + versionedPath);
+                            if(linkOrStylesheet instanceof HTMLLinkElement){
+                                rn.appendChild(linkOrStylesheet);
+                            }else if(typeof linkOrStylesheet === 'object'){
+                                (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
+                            }                    
+                        break;
+                    }
+                    break;
+                case 'object':
+                    if(result instanceof HTMLLinkElement){
+                        rn.appendChild(result);
+                    }else{
+                        (rn as any).adoptedStyleSheets = [result.default];
+                    }
             }
+
         }
         this.doRemoveStyle(this, proxy.getRootNode() as DocumentFragment);
     }
