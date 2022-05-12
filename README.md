@@ -5,7 +5,7 @@ be-loaded is a web component decorator / behavior that allows:
 1)  Declarative imports of CSS Modules without JavaScript.
 2)  A web component consumer can choose to override the default CSS Module, without incurring any penalty from bundling the original CSS Module with the web component definition.
 3)  Fallback on a default CDN if no mapping is provided.
-3) JSON and XSLT imports following similar patterns.
+4)  JSON and XSLT imports following similar patterns.
 
 Much or all of this could be accomplished, perhaps, with import maps alone, once they land in all browsers, and with [polyfills in the interim](https://github.com/guybedford/es-module-shims).
 
