@@ -19,7 +19,7 @@ export class BeLoaded implements BeLoadedActions{
                     if(linkOrStylesheet instanceof HTMLLinkElement){
                         rn.appendChild(linkOrStylesheet);
                     }else{
-                        (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
+                        (rn as any).adoptedStyleSheets = [(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
                     }
                 })
                 
@@ -40,7 +40,7 @@ export class BeLoaded implements BeLoadedActions{
                             if(linkOrStylesheet instanceof HTMLLinkElement){
                                 rn.appendChild(linkOrStylesheet);
                             }else if(typeof linkOrStylesheet === 'object'){
-                                (rn as any).adoptedStyleSheets = [linkOrStylesheet.default];
+                                (rn as any).adoptedStyleSheets = [...(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
                             }                    
                         break;
                     }
@@ -49,7 +49,7 @@ export class BeLoaded implements BeLoadedActions{
                     if(result instanceof HTMLLinkElement){
                         rn.appendChild(result);
                     }else{
-                        (rn as any).adoptedStyleSheets = [result.default];
+                        (rn as any).adoptedStyleSheets = [...(rn as any).adoptedStyleSheets, result.default];
                     }
             }
 

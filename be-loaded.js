@@ -18,7 +18,7 @@ export class BeLoaded {
                         rn.appendChild(linkOrStylesheet);
                     }
                     else {
-                        rn.adoptedStyleSheets = [linkOrStylesheet.default];
+                        rn.adoptedStyleSheets = [rn.adoptedStyleSheets, linkOrStylesheet.default];
                     }
                 });
             }
@@ -40,7 +40,7 @@ export class BeLoaded {
                                 rn.appendChild(linkOrStylesheet);
                             }
                             else if (typeof linkOrStylesheet === 'object') {
-                                rn.adoptedStyleSheets = [linkOrStylesheet.default];
+                                rn.adoptedStyleSheets = [...rn.adoptedStyleSheets, linkOrStylesheet.default];
                             }
                             break;
                     }
@@ -50,7 +50,7 @@ export class BeLoaded {
                         rn.appendChild(result);
                     }
                     else {
-                        rn.adoptedStyleSheets = [result.default];
+                        rn.adoptedStyleSheets = [...rn.adoptedStyleSheets, result.default];
                     }
             }
         }
