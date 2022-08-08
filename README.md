@@ -77,7 +77,7 @@ One easy solution in the absence of such a solution is for the may-it-be transpi
 be-loaded, by default, employs option 2, using jsdelivr as the CDN.  To use a different CDN, set the "CDNFallback" property to the base URL of the CDN.  be-loaded will again create a link tag in the header with the mapping, as a signal to other instances:
 
 ```html
-<link be-pre-emptive rel=lazy as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
+<link be-preemptive rel=lazy as=script id=my-web-component/my-web-component-styles.css href="./my-customized-styles.css">
 ...
 <my-web-component>
   #Shadow DOM
