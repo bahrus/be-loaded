@@ -1,5 +1,11 @@
 # be-loaded [WIP]
 
+<a href="https://nodei.co/npm/be-loaded/"><img src="https://nodei.co/npm/be-loaded.png"></a>
+
+[![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-loaded?style=for-the-badge)](https://bundlephobia.com/result?p=be-loaded)
+
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-loaded?compression=gzip">
+
 be-loaded is a web component decorator / behavior that allows:
 
 1)  Declarative imports of CSS Modules without JavaScript.
@@ -11,7 +17,7 @@ Much or all of this could be accomplished, perhaps, with import maps alone, once
 
 And in fact, import maps is one of the two mechanisms be-loaded leans heavily on.
 
-But be-loaded also allows for an alternative / supplementary mechanism for managing theme overrides, via link rel=preload and/or link rel=lazy for less aggressive preemptive downloads (with the help of be-preemptive). 
+But be-loaded also allows for an alternative / supplementary mechanism for managing theme overrides, via link rel=preload and/or link rel=lazy for less aggressive preemptive downloads (with the help of [be-preemptive](https://github.com/bahrus/be-preemptive)). 
 
 ## Stylesheets
 

@@ -30,16 +30,16 @@
     "doc": "custom-elements-manifest analyze"
   },
   "dependencies": {
-    "xtal-element": "0.0.493",
-    "trans-render": "0.0.536",
-    "be-decorated": "0.0.114",
-    "be-hive": "0.0.46",
-    "be-preemptive": "0.0.4"
+    "xtal-element": "0.0.502",
+    "trans-render": "0.0.562",
+    "be-decorated": "0.0.131",
+    "be-hive": "0.0.52",
+    "be-preemptive": "0.0.6"
   },
   "devDependencies": {
-    "may-it-serve": "0.0.0",
+    "may-it-serve": "0.0.2",
     "@skypack/package-check": "0.2.2",
-    "@custom-elements-manifest/analyzer": "0.5.7"
+    "@custom-elements-manifest/analyzer": "0.6.4"
   },
   "repository": {
     "type": "git",
