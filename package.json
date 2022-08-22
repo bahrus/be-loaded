@@ -30,11 +30,11 @@
     "doc": "custom-elements-manifest analyze"
   },
   "dependencies": {
-    "xtal-element": "0.0.502",
-    "trans-render": "0.0.562",
-    "be-decorated": "0.0.131",
-    "be-hive": "0.0.52",
-    "be-preemptive": "0.0.6"
+    "xtal-element": "0.0.512",
+    "trans-render": "0.0.573",
+    "be-decorated": "0.0.132",
+    "be-hive": "0.0.55",
+    "be-preemptive": "0.0.7"
   },
   "devDependencies": {
     "may-it-serve": "0.0.2",
