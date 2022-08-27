@@ -34,7 +34,7 @@ export class BeLoaded implements BeLoadedActions{
                         this.#insertStylesheet(rn, linkOrStylesheet);
                     });
                 }else{
-                    link.addEventListener('be-decorated.preemptive.link-or-stylesheet-changed', e => {
+                    link.addEventListener('be-decorated.preemptive.link-or-stylesheet-promise-changed', e => {
                         linkOrStylesheetPromise = (<any>e).detail.value as Promise<LinkOrStylesheet>;
                         linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {
                             this.#insertStylesheet(rn, linkOrStylesheet);

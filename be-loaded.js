@@ -32,7 +32,7 @@ export class BeLoaded {
                     });
                 }
                 else {
-                    link.addEventListener('be-decorated.preemptive.link-or-stylesheet-changed', e => {
+                    link.addEventListener('be-decorated.preemptive.link-or-stylesheet-promise-changed', e => {
                         linkOrStylesheetPromise = e.detail.value;
                         linkOrStylesheetPromise.then((linkOrStylesheet) => {
                             this.#insertStylesheet(rn, linkOrStylesheet);
