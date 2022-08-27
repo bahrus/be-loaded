@@ -1,10 +1,6 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
-export class BeLoaded {
-    #target;
-    intro(proxy, target) {
-        this.#target = target;
-    }
+export class BeLoaded extends EventTarget {
     #insertStylesheet(rn, linkOrStylesheet) {
         if (linkOrStylesheet instanceof HTMLLinkElement) {
             rn.appendChild(linkOrStylesheet);
@@ -12,6 +8,7 @@ export class BeLoaded {
         else {
             rn.adoptedStyleSheets = [...rn.adoptedStyleSheets, linkOrStylesheet.default];
         }
+        this.proxy.resolved = true;
     }
     async onPath({ path, proxy, CDNFallback, version }) {
         const link = self[path];
@@ -80,7 +77,7 @@ export class BeLoaded {
                 break;
             case 'boolean':
                 if (removeStyle) {
-                    this.#target.innerHTML = '';
+                    proxy.self.innerHTML = '';
                 }
                 break;
         }
@@ -101,7 +98,6 @@ define({
             proxyPropDefaults: {
                 CDNFallback: 'https://cdn.jsdelivr.net/npm/',
             },
-            intro: 'intro'
         },
         actions: {
             onPath: 'path',

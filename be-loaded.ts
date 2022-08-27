@@ -3,11 +3,7 @@ import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps} from './types';
 import {register} from 'be-hive/register.js';
 import {LinkOrStylesheet} from 'be-preemptive/types';
 
-export class BeLoaded implements BeLoadedActions{
-    #target!: HTMLStyleElement
-    intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void {
-        this.#target = target;
-    }
+export class BeLoaded extends EventTarget implements BeLoadedActions{
 
     #insertStylesheet(rn: DocumentFragment, linkOrStylesheet: LinkOrStylesheet){
         if(linkOrStylesheet instanceof HTMLLinkElement){
@@ -15,6 +11,7 @@ export class BeLoaded implements BeLoadedActions{
         }else{
             (rn as any).adoptedStyleSheets = [...(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
         }
+        this.proxy.resolved = true;
     }
     async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
         const link = (<any>self)[path] as HTMLLinkElement | undefined;
@@ -82,7 +79,7 @@ export class BeLoaded implements BeLoadedActions{
                 break;
             case 'boolean':
                 if(removeStyle){
-                    this.#target.innerHTML = '';
+                    proxy.self.innerHTML = '';
                 }
                 break;
         }
@@ -110,7 +107,6 @@ define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoade
                 CDNFallback: 'https://cdn.jsdelivr.net/npm/',
 
             },
-            intro: 'intro'
         },
         actions:{
             onPath:'path',

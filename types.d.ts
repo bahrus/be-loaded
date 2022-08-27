@@ -12,10 +12,7 @@ export interface BeLoadedProps extends BeLoadedVirtualProps{
 }
 
 export interface BeLoadedActions {
-
-    intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement, beDecor: BeDecoratedProps): void;
     onPath(self: this): Promise<void>;
-    
 }
 
 
