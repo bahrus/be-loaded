@@ -2,7 +2,7 @@ import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
 import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps} from './types';
 import {register} from 'be-hive/register.js';
 import {LinkOrStylesheet} from 'be-preemptive/types';
-
+import('be-preemptive/be-preemptive.js');
 export class BeLoaded extends EventTarget implements BeLoadedActions{
 
     #insertStylesheet(rn: DocumentFragment, linkOrStylesheet: LinkOrStylesheet){

@@ -1,5 +1,6 @@
 import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
+import('be-preemptive/be-preemptive.js');
 export class BeLoaded extends EventTarget {
     #insertStylesheet(rn, linkOrStylesheet) {
         if (linkOrStylesheet instanceof HTMLLinkElement) {
