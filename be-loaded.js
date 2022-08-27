@@ -10,7 +10,7 @@ export class BeLoaded {
             rn.appendChild(linkOrStylesheet);
         }
         else {
-            rn.adoptedStyleSheets = [rn.adoptedStyleSheets, linkOrStylesheet.default];
+            rn.adoptedStyleSheets = [...rn.adoptedStyleSheets, linkOrStylesheet.default];
         }
     }
     async onPath({ path, proxy, CDNFallback, version }) {

@@ -13,7 +13,7 @@ export class BeLoaded implements BeLoadedActions{
         if(linkOrStylesheet instanceof HTMLLinkElement){
             rn.appendChild(linkOrStylesheet);
         }else{
-            (rn as any).adoptedStyleSheets = [(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
+            (rn as any).adoptedStyleSheets = [...(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
         }
     }
     async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
