@@ -14,7 +14,11 @@ export class BeLoaded implements BeLoadedActions{
             await import('be-preemptive/be-preemptive.js');
             await customElements.whenDefined('be-preemptive');
             const ifWantsToBe = (<any>rn.querySelector('be-preemptive')).ifWantsToBe;
-            if(link.matches(`[is-${ifWantsToBe}],[be-${ifWantsToBe}]`)){
+            if(link.matches(`[be-${ifWantsToBe}]`)){
+                const {attachBehiviors} = await import('be-vigilant/attachBehiviors.js');
+                await attachBehiviors(link);
+            }
+            if(link.matches(`[is-${ifWantsToBe}]`)){
                 (<any>link).beDecorated.preemptive.linkOrStylesheetPromise.then((linkOrStylesheet: any) => {
                     if(linkOrStylesheet instanceof HTMLLinkElement){
                         rn.appendChild(linkOrStylesheet);
