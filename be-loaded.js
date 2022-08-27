@@ -12,9 +12,9 @@ export class BeLoaded {
             await import('be-preemptive/be-preemptive.js');
             await customElements.whenDefined('be-preemptive');
             const ifWantsToBe = rn.querySelector('be-preemptive').ifWantsToBe;
-            if (link.matches(`[be-${ifWantsToBe}]`)) {
+            if (link.matches(`[be-${ifWantsToBe}]`) && link.parentElement !== null) {
                 const { attachBehiviors } = await import('be-vigilant/attachBehiviors.js');
-                await attachBehiviors(link);
+                await attachBehiviors(link.parentElement);
             }
             if (link.matches(`[is-${ifWantsToBe}]`)) {
                 link.beDecorated.preemptive.linkOrStylesheetPromise.then((linkOrStylesheet) => {
