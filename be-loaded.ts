@@ -1,11 +1,20 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
 import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps} from './types';
 import {register} from 'be-hive/register.js';
+import {LinkOrStylesheet} from 'be-preemptive/types';
 
 export class BeLoaded implements BeLoadedActions{
     #target!: HTMLStyleElement
     intro(proxy: HTMLStyleElement & BeLoadedVirtualProps, target: HTMLStyleElement): void {
         this.#target = target;
+    }
+
+    #insertStylesheet(rn: DocumentFragment, linkOrStylesheet: LinkOrStylesheet){
+        if(linkOrStylesheet instanceof HTMLLinkElement){
+            rn.appendChild(linkOrStylesheet);
+        }else{
+            (rn as any).adoptedStyleSheets = [(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
+        }
     }
     async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
         const link = (<any>self)[path] as HTMLLinkElement | undefined;
@@ -19,13 +28,19 @@ export class BeLoaded implements BeLoadedActions{
                 await attachBehiviors(link.parentElement);
             }
             if(link.matches(`[is-${ifWantsToBe}]`)){
-                (<any>link).beDecorated.preemptive.linkOrStylesheetPromise.then((linkOrStylesheet: any) => {
-                    if(linkOrStylesheet instanceof HTMLLinkElement){
-                        rn.appendChild(linkOrStylesheet);
-                    }else{
-                        (rn as any).adoptedStyleSheets = [(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
-                    }
-                })
+                let linkOrStylesheetPromise = (<any>link)?.beDecorated?.preemptive?.linkOrStylesheetPromise as Promise<LinkOrStylesheet> | undefined;
+                if(linkOrStylesheetPromise !== undefined){
+                    linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {
+                        this.#insertStylesheet(rn, linkOrStylesheet);
+                    });
+                }else{
+                    link.addEventListener('beDecorated.preemptive.link-or-stylesheet-changed', e => {
+                        linkOrStylesheetPromise = (<any>e).detail.value as Promise<LinkOrStylesheet>;
+                        linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {
+                            this.#insertStylesheet(rn, linkOrStylesheet);
+                        });
+                    }, {once: true});
+                }
                 
             }
         }else{
@@ -40,12 +55,8 @@ export class BeLoaded implements BeLoadedActions{
                             //do same thing as simply not found?
                         case '404':
                             const versionedPath = version !== undefined ? path.replace('/', '@' + version + '/') : path;
-                            const linkOrStylesheet =  await importCSS(CDNFallback + versionedPath);
-                            if(linkOrStylesheet instanceof HTMLLinkElement){
-                                rn.appendChild(linkOrStylesheet);
-                            }else if(typeof linkOrStylesheet === 'object'){
-                                (rn as any).adoptedStyleSheets = [...(rn as any).adoptedStyleSheets, linkOrStylesheet.default];
-                            }                    
+                            const linkOrStylesheet =  await importCSS(CDNFallback + versionedPath) as LinkOrStylesheet;
+                            this.#insertStylesheet(rn, linkOrStylesheet)                
                         break;
                     }
                     break;

@@ -5,6 +5,14 @@ export class BeLoaded {
     intro(proxy, target) {
         this.#target = target;
     }
+    #insertStylesheet(rn, linkOrStylesheet) {
+        if (linkOrStylesheet instanceof HTMLLinkElement) {
+            rn.appendChild(linkOrStylesheet);
+        }
+        else {
+            rn.adoptedStyleSheets = [rn.adoptedStyleSheets, linkOrStylesheet.default];
+        }
+    }
     async onPath({ path, proxy, CDNFallback, version }) {
         const link = self[path];
         const rn = proxy.getRootNode();
@@ -17,14 +25,20 @@ export class BeLoaded {
                 await attachBehiviors(link.parentElement);
             }
             if (link.matches(`[is-${ifWantsToBe}]`)) {
-                link.beDecorated.preemptive.linkOrStylesheetPromise.then((linkOrStylesheet) => {
-                    if (linkOrStylesheet instanceof HTMLLinkElement) {
-                        rn.appendChild(linkOrStylesheet);
-                    }
-                    else {
-                        rn.adoptedStyleSheets = [rn.adoptedStyleSheets, linkOrStylesheet.default];
-                    }
-                });
+                let linkOrStylesheetPromise = link?.beDecorated?.preemptive?.linkOrStylesheetPromise;
+                if (linkOrStylesheetPromise !== undefined) {
+                    linkOrStylesheetPromise.then((linkOrStylesheet) => {
+                        this.#insertStylesheet(rn, linkOrStylesheet);
+                    });
+                }
+                else {
+                    link.addEventListener('beDecorated.preemptive.link-or-stylesheet-changed', e => {
+                        linkOrStylesheetPromise = e.detail.value;
+                        linkOrStylesheetPromise.then((linkOrStylesheet) => {
+                            this.#insertStylesheet(rn, linkOrStylesheet);
+                        });
+                    }, { once: true });
+                }
             }
         }
         else {
@@ -40,12 +54,7 @@ export class BeLoaded {
                         case '404':
                             const versionedPath = version !== undefined ? path.replace('/', '@' + version + '/') : path;
                             const linkOrStylesheet = await importCSS(CDNFallback + versionedPath);
-                            if (linkOrStylesheet instanceof HTMLLinkElement) {
-                                rn.appendChild(linkOrStylesheet);
-                            }
-                            else if (typeof linkOrStylesheet === 'object') {
-                                rn.adoptedStyleSheets = [...rn.adoptedStyleSheets, linkOrStylesheet.default];
-                            }
+                            this.#insertStylesheet(rn, linkOrStylesheet);
                             break;
                     }
                     break;
