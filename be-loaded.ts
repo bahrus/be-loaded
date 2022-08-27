@@ -16,7 +16,7 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
     async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
         const link = (<any>self)[path] as HTMLLinkElement | undefined;
         const rn = proxy.getRootNode() as DocumentFragment;
-        if(link !== undefined && (link.matches(`[be-${ifWantsToBe}]`) || link.matches(`[is-${ifWantsToBe}]`)){
+        if(link !== undefined && (link.matches(`[be-preemptive`) || link.matches(`[is-preemptive]`))){
             let linkOrStylesheetPromise = (<any>link)?.beDecorated?.preemptive?.linkOrStylesheetPromise as Promise<LinkOrStylesheet> | undefined;
             if(linkOrStylesheetPromise !== undefined){
                 linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {

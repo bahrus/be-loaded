@@ -14,7 +14,7 @@ export class BeLoaded extends EventTarget {
     async onPath({ path, proxy, CDNFallback, version }) {
         const link = self[path];
         const rn = proxy.getRootNode();
-        if (link !== undefined && (link.matches(`[be-${ifWantsToBe}]`) || link.matches(`[is-${ifWantsToBe}]`))) {
+        if (link !== undefined && (link.matches(`[be-preemptive`) || link.matches(`[is-preemptive]`))) {
             let linkOrStylesheetPromise = link?.beDecorated?.preemptive?.linkOrStylesheetPromise;
             if (linkOrStylesheetPromise !== undefined) {
                 linkOrStylesheetPromise.then((linkOrStylesheet) => {
