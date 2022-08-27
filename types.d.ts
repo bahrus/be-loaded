@@ -1,6 +1,6 @@
-import {BeDecoratedProps} from 'be-decorated/types';
+import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
 
-export interface BeLoadedVirtualProps{
+export interface BeLoadedVirtualProps extends MinimalProxy<HTMLStyleElement>{
     CDNFallback: string;
     path: string;
     version: string;
