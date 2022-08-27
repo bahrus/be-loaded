@@ -16,30 +16,21 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
     async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
         const link = (<any>self)[path] as HTMLLinkElement | undefined;
         const rn = proxy.getRootNode() as DocumentFragment;
-        if(link !== undefined){
-            await import('be-preemptive/be-preemptive.js');
-            await customElements.whenDefined('be-preemptive');
-            const ifWantsToBe = (<any>rn.querySelector('be-preemptive')).ifWantsToBe;
-            if(link.matches(`[be-${ifWantsToBe}]`) && link.parentElement !== null){
-                const {attachBehiviors} = await import('be-vigilant/attachBehiviors.js');
-                await attachBehiviors(link.parentElement);
-            }
-            if(link.matches(`[is-${ifWantsToBe}]`)){
-                let linkOrStylesheetPromise = (<any>link)?.beDecorated?.preemptive?.linkOrStylesheetPromise as Promise<LinkOrStylesheet> | undefined;
-                if(linkOrStylesheetPromise !== undefined){
+        if(link !== undefined && (link.matches(`[be-${ifWantsToBe}]`) || link.matches(`[is-${ifWantsToBe}]`)){
+            let linkOrStylesheetPromise = (<any>link)?.beDecorated?.preemptive?.linkOrStylesheetPromise as Promise<LinkOrStylesheet> | undefined;
+            if(linkOrStylesheetPromise !== undefined){
+                linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {
+                    this.#insertStylesheet(rn, linkOrStylesheet);
+                });
+            }else{
+                link.addEventListener('be-decorated.preemptive.link-or-stylesheet-promise-changed', e => {
+                    linkOrStylesheetPromise = (<any>e).detail.value as Promise<LinkOrStylesheet>;
                     linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {
                         this.#insertStylesheet(rn, linkOrStylesheet);
                     });
-                }else{
-                    link.addEventListener('be-decorated.preemptive.link-or-stylesheet-promise-changed', e => {
-                        linkOrStylesheetPromise = (<any>e).detail.value as Promise<LinkOrStylesheet>;
-                        linkOrStylesheetPromise.then((linkOrStylesheet: LinkOrStylesheet) => {
-                            this.#insertStylesheet(rn, linkOrStylesheet);
-                        });
-                    }, {once: true});
-                }
-                
+                }, {once: true});
             }
+                
         }else{
             //try doing an import and rely on import maps for dependency injection
             const {importCSS} = await import('be-preemptive/importCSS.js');

@@ -13,29 +13,20 @@ export class BeLoaded extends EventTarget {
     async onPath({ path, proxy, CDNFallback, version }) {
         const link = self[path];
         const rn = proxy.getRootNode();
-        if (link !== undefined) {
-            await import('be-preemptive/be-preemptive.js');
-            await customElements.whenDefined('be-preemptive');
-            const ifWantsToBe = rn.querySelector('be-preemptive').ifWantsToBe;
-            if (link.matches(`[be-${ifWantsToBe}]`) && link.parentElement !== null) {
-                const { attachBehiviors } = await import('be-vigilant/attachBehiviors.js');
-                await attachBehiviors(link.parentElement);
+        if (link !== undefined && (link.matches(`[be-${ifWantsToBe}]`) || link.matches(`[is-${ifWantsToBe}]`))) {
+            let linkOrStylesheetPromise = link?.beDecorated?.preemptive?.linkOrStylesheetPromise;
+            if (linkOrStylesheetPromise !== undefined) {
+                linkOrStylesheetPromise.then((linkOrStylesheet) => {
+                    this.#insertStylesheet(rn, linkOrStylesheet);
+                });
             }
-            if (link.matches(`[is-${ifWantsToBe}]`)) {
-                let linkOrStylesheetPromise = link?.beDecorated?.preemptive?.linkOrStylesheetPromise;
-                if (linkOrStylesheetPromise !== undefined) {
+            else {
+                link.addEventListener('be-decorated.preemptive.link-or-stylesheet-promise-changed', e => {
+                    linkOrStylesheetPromise = e.detail.value;
                     linkOrStylesheetPromise.then((linkOrStylesheet) => {
                         this.#insertStylesheet(rn, linkOrStylesheet);
                     });
-                }
-                else {
-                    link.addEventListener('be-decorated.preemptive.link-or-stylesheet-promise-changed', e => {
-                        linkOrStylesheetPromise = e.detail.value;
-                        linkOrStylesheetPromise.then((linkOrStylesheet) => {
-                            this.#insertStylesheet(rn, linkOrStylesheet);
-                        });
-                    }, { once: true });
-                }
+                }, { once: true });
             }
         }
         else {
