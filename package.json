@@ -32,9 +32,9 @@
   "dependencies": {
     "xtal-element": "0.0.514",
     "trans-render": "0.0.578",
-    "be-decorated": "0.0.146",
+    "be-decorated": "0.0.147",
     "be-hive": "0.0.57",
-    "be-preemptive": "0.0.11"
+    "be-preemptive": "0.0.12"
   },
   "devDependencies": {
     "may-it-serve": "0.0.2",
