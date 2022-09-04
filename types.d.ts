@@ -1,18 +1,30 @@
 import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
 
-export interface BeLoadedVirtualProps extends MinimalProxy<HTMLStyleElement>{
-    CDNFallback: string;
-    path: string;
-    version: string;
-    removeStyle: string | boolean;
+export interface BeLoadedEndUserProps {
+    CDNFallback?: string;
+    path?: string;
+    version?: string;
+    removeStyle?: string | boolean;
+}
+export interface BeLoadedVirtualProps extends BeLoadedEndUserProps, MinimalProxy<HTMLStyleElement>{
+
 }
 
-export interface BeLoadedProps extends BeLoadedVirtualProps{
-    proxy: HTMLStyleElement & BeLoadedVirtualProps;
+export type Proxy = HTMLStyleElement & BeLoadedVirtualProps;
+
+export interface ProxyProps extends BeLoadedVirtualProps{
+    proxy: Proxy;
 }
+
+export interface Controller{
+    proxy: Proxy;
+}
+
+export type PP = ProxyProps;
+
 
 export interface BeLoadedActions {
-    onPath(self: this): Promise<void>;
+    onPath(pp: PP): Promise<void>;
 }
 
 

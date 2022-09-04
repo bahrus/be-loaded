@@ -1,5 +1,5 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
-import {BeLoadedVirtualProps, BeLoadedActions, BeLoadedProps} from './types';
+import {BeLoadedVirtualProps, BeLoadedActions, PP, Controller} from './types';
 import {register} from 'be-hive/register.js';
 import {LinkOrStylesheet} from 'be-preemptive/types';
 import('be-preemptive/be-preemptive.js');
@@ -13,8 +13,9 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
         }
         this.proxy.resolved = true;
     }
-    async onPath({path, proxy, CDNFallback, version}: this): Promise<void> {
-        const link = (<any>self)[path] as HTMLLinkElement | undefined;
+    async onPath(pp: PP): Promise<void> {
+        const {path, proxy, CDNFallback, version} = pp;
+        const link = (<any>self)[path!] as HTMLLinkElement | undefined;
         const rn = proxy.getRootNode() as DocumentFragment;
         if(link !== undefined && (link.matches(`[be-preemptive`) || link.matches(`[is-preemptive]`))){
             let linkOrStylesheetPromise = (<any>link)?.beDecorated?.preemptive?.linkOrStylesheetPromise as Promise<LinkOrStylesheet> | undefined;
@@ -34,7 +35,7 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
         }else{
             //try doing an import and rely on import maps for dependency injection
             const {importCSS} = await import('be-preemptive/importCSS.js');
-            const result = await importCSS(path, true);
+            const result = await importCSS(path!, true);
             switch(typeof result){
                 case 'string':
                     switch(result){
@@ -42,8 +43,8 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
                             //no support for import maps either for now (not sure which will come first with firefox/safari)
                             //do same thing as simply not found?
                         case '404':
-                            const versionedPath = version !== undefined ? path.replace('/', '@' + version + '/') : path;
-                            const linkOrStylesheet =  await importCSS(CDNFallback + versionedPath) as LinkOrStylesheet;
+                            const versionedPath = version !== undefined ? path!.replace('/', '@' + version + '/') : path;
+                            const linkOrStylesheet =  await importCSS(CDNFallback! + versionedPath) as LinkOrStylesheet;
                             this.#insertStylesheet(rn, linkOrStylesheet)                
                         break;
                     }
@@ -57,10 +58,10 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
             }
 
         }
-        this.doRemoveStyle(this, proxy.getRootNode() as DocumentFragment);
+        this.doRemoveStyle(pp, proxy.getRootNode() as DocumentFragment);
     }
 
-    doRemoveStyle({removeStyle, proxy}: this, rn: DocumentFragment){
+    doRemoveStyle({removeStyle, proxy}: PP, rn: DocumentFragment){
         switch(typeof removeStyle){
             case 'string':
                 {
@@ -77,7 +78,7 @@ export class BeLoaded extends EventTarget implements BeLoadedActions{
     }
 }
 
-export interface BeLoaded extends BeLoadedProps{}
+export interface BeLoaded extends Controller{}
 
 const tagName = 'be-loaded';
 
@@ -85,7 +86,7 @@ const ifWantsToBe = 'loaded';
 
 const upgrade = 'style';
 
-define<BeLoadedProps & BeDecoratedProps<BeLoadedProps, BeLoadedActions>, BeLoadedActions>({
+define<BeLoadedVirtualProps & BeDecoratedProps<BeLoadedVirtualProps, BeLoadedActions>, BeLoadedActions>({
     config:{
         tagName,
         propDefaults:{

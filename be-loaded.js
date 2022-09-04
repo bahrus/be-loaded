@@ -11,7 +11,8 @@ export class BeLoaded extends EventTarget {
         }
         this.proxy.resolved = true;
     }
-    async onPath({ path, proxy, CDNFallback, version }) {
+    async onPath(pp) {
+        const { path, proxy, CDNFallback, version } = pp;
         const link = self[path];
         const rn = proxy.getRootNode();
         if (link !== undefined && (link.matches(`[be-preemptive`) || link.matches(`[is-preemptive]`))) {
@@ -56,7 +57,7 @@ export class BeLoaded extends EventTarget {
                     }
             }
         }
-        this.doRemoveStyle(this, proxy.getRootNode());
+        this.doRemoveStyle(pp, proxy.getRootNode());
     }
     doRemoveStyle({ removeStyle, proxy }, rn) {
         switch (typeof removeStyle) {
