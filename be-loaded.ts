@@ -1,9 +1,9 @@
 import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
-import {BeLoadedVirtualProps, BeLoadedActions, PP, Controller} from './types';
+import {VirtualProps, Actions, PP, Controller} from './types';
 import {register} from 'be-hive/register.js';
 import {LinkOrStylesheet} from 'be-preemptive/types';
 import('be-preemptive/be-preemptive.js');
-export class BeLoaded extends EventTarget implements BeLoadedActions{
+export class BeLoaded extends EventTarget implements Actions{
 
     #insertStylesheet(rn: DocumentFragment, linkOrStylesheet: LinkOrStylesheet){
         if(linkOrStylesheet instanceof HTMLLinkElement){
@@ -86,7 +86,7 @@ const ifWantsToBe = 'loaded';
 
 const upgrade = 'style';
 
-define<BeLoadedVirtualProps & BeDecoratedProps<BeLoadedVirtualProps, BeLoadedActions>, BeLoadedActions>({
+define<VirtualProps & BeDecoratedProps<VirtualProps, Actions>, Actions>({
     config:{
         tagName,
         propDefaults:{
