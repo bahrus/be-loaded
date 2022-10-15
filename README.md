@@ -1,5 +1,7 @@
 # be-loaded [WIP]
 
+[![Playwright Tests](https://github.com/bahrus/be-loaded/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-loaded/actions/workflows/CI.yml)
+
 <a href="https://nodei.co/npm/be-loaded/"><img src="https://nodei.co/npm/be-loaded.png"></a>
 
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-loaded?style=for-the-badge)](https://bundlephobia.com/result?p=be-loaded)
