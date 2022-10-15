@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <my-web-component>
+        <template shadowroot='open'>
+            <style  be-loaded='{
+                "path": "be-loaded/demo/dev.css",
+                "CDNFallback": "https://unpkg.com/",
+                "version": "0.0.69",
+                "removeStyle": true
+            }'></style>
+            <div>hello</div>
+            <be-hive></be-hive>
+        </template>
+        
+      </my-web-component>
+      <div id=target></div>
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.4/dist/es-module-shims.js"></script>
+    <script type='importmap'>
+        {
+            "imports": {
+                "be-decorated/": "../node_modules/be-decorated/",
+                "be-hive/": "../node_modules/be-hive/",
+                "be-preemptive/": "../node_modules/be-preemptive/",
+                "be-loaded/": "../",
+                "be-vigilant/": "../node_modules/be-vigilant/",
+                "xtal-element/": "../node_modules/xtal-element/",
+                "trans-render/": "../node_modules/trans-render/"
+            }
+        }
+    </script>
+    <script type=module>
+        import '../be-loaded.js';
+    </script>
+    <script>
+    (function attachShadowRoots(root) {
+        root.querySelectorAll("template[shadowroot]").forEach(template => {
+          const mode = template.getAttribute("shadowroot");
+          const shadowRoot = template.parentNode.attachShadow({ mode });
+          shadowRoot.appendChild(template.content);
+          template.remove();
+          attachShadowRoots(shadowRoot);
+        });
+      })(document);
+    </script>
+    <script>
+        function runTest(){
+            if(window.getComputedStyle(document.querySelector('my-web-component').shadowRoot.querySelector('div')).color === 'rgb(255, 0, 0)'){
+                target.setAttribute('mark', 'good');
+            }
+        }
+        setTimeout(() => {
+            runTest();
+        }, 2000)
+    </script>
+
+</body>
+</html>
