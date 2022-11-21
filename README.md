@@ -1,11 +1,8 @@
 # be-loaded [WIP]
 
 [![Playwright Tests](https://github.com/bahrus/be-loaded/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-loaded/actions/workflows/CI.yml)
-
-<a href="https://nodei.co/npm/be-loaded/"><img src="https://nodei.co/npm/be-loaded.png"></a>
-
+[![NPM version](https://badge.fury.io/js/be-loaded.png)](http://badge.fury.io/js/be-loaded)
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-loaded?style=for-the-badge)](https://bundlephobia.com/result?p=be-loaded)
-
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-loaded?compression=gzip">
 
 be-loaded is a web component decorator / behavior that allows:
